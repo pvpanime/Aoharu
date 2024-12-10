@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="@{layout/voler.html}">
+<head>
+  <title>Arona</title>
+</head>
+  <main layout:fragment="content">
+    <img th:if="${param.useChroma}" th:src="@{/plana.png}" th:alt="${plana}">
+    <img th:unless="${param.useChroma}" th:src="@{/arona.png}" th:alt="${arona}">
+    <div>
+      <a th:href="@{/}">Back to Home</a>
+    </div>
+  </main>
+</html>
