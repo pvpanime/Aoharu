@@ -1,9 +1,10 @@
 package dev.nemi.aoharu;
 
-import dev.nemi.aoharu.repository.BoardRepo;
+import dev.nemi.aoharu.service.BoardViewDTO;
+import dev.nemi.aoharu.service.BoardWriteDTO;
 import dev.nemi.aoharu.repository.BucketRepo;
-import dev.nemi.aoharu.prime.Board;
 import dev.nemi.aoharu.prime.Bucket;
+import dev.nemi.aoharu.service.BoardService;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.util.List;
+
 @SpringBootTest
 @Log4j2
 public class BoardRepoTest {
 
   @Autowired
-  private BoardRepo boardRepo;
+  private BoardService boardService;
 
   @Autowired
   private BucketRepo bucketRepo;
@@ -49,12 +52,12 @@ public class BoardRepoTest {
 //    boardRepo.save(board);
 //  }
 
-  @Test
-  public void paginationTest() {
-    Pageable pageable = PageRequest.of(0, 10, Sort.by("updated").descending());
-    Page<Board> boardPage = boardRepo.findAll(pageable);
-    logPage(boardPage);
-  }
+//  @Test
+//  public void paginationTest() {
+//    Pageable pageable = PageRequest.of(0, 10, Sort.by("updated").descending());
+//    Page<Board> boardPage = boardRepo.findAll(pageable);
+//    logPage(boardPage);
+//  }
 
 
 //  @Test
@@ -116,16 +119,16 @@ public class BoardRepoTest {
     logPage(page);
   }
 
-  @Test
-  public void querydslTest() {
-    Pageable pgb = PageRequest.of(0, 10, Sort.by("added").descending());
-    Page<Board> result = boardRepo.realSearch(
-      pgb, new String[] {"title", "content"},
-      "4"
-    );
-
-    logPage(result);
-  }
+//  @Test
+//  public void querydslTest() {
+//    Pageable pgb = PageRequest.of(0, 10, Sort.by("added").descending());
+//    Page<Board> result = boardRepo.realSearch(
+//      pgb, new String[] {"title", "content"},
+//      "4"
+//    );
+//
+//    logPage(result);
+//  }
 
   @Test
   public void bucketQuerydslTest() {
@@ -137,5 +140,35 @@ public class BoardRepoTest {
     logPage(result);
   }
 
+//
+//  @Test
+//  public void boardWriteTest() {
+//    BoardWriteDTO dto = BoardWriteDTO.builder()
+//      .title("The 2nd Querldsl-ed Board title")
+//      .content("This is now Spring Boot, Second time!")
+//      .userid("hina")
+//      .status(1)
+//      .build();
+//
+//    Long id = boardService.write(dto);
+//    log.info("BoardId={}", id);
+//  }
+//
+//  @Test
+//  public void boardViewTest() {
+//    BoardViewDTO dto = boardService.getOne(102L);
+//    log.info("BoardView={}", dto);
+//  }
+//
+//
+//  @Test
+//  public void boardDeleteTest() {
+//    boardService.delete(1L);
+//  }
 
+  @Test
+  public void boardListTest() {
+    PageResponseDTO<BoardViewDTO> responseDTO = boardService.search(PageRequestDTO.DEFAULT);
+    log.info("BoardList={}", responseDTO);
+  }
 }

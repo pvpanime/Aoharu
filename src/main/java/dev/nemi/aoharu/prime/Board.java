@@ -25,10 +25,11 @@ public class Board extends BaseEntity {
   @Column(length = 32, nullable = false)
   private String userid;
 
+  @Builder.Default
   @Column(precision = 2, nullable = false)
-  private Integer status;
+  private Integer status = 1;
 
-  public void update(String title, String content) {
+  public void editPayload(String title, String content) {
     this.title = title;
     this.content = content;
   }

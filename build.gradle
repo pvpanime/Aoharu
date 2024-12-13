@@ -53,6 +53,9 @@ dependencies {
             "com.querydsl:querydsl-apt:${queryDslVersion}:jakarta"
     )
 
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.1'
+
+
 }
 
 tasks.named('test') {
@@ -66,7 +69,10 @@ tasks.named('test') {
 sourceSets {
     main {
         java {
-            srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
+//            srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
+            srcDirs = ["/src/main/java", "/build/generated"]
         }
     }
 }
+
+compileJava.dependsOn('clean')
