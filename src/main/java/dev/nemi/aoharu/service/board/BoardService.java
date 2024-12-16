@@ -1,6 +1,6 @@
-package dev.nemi.aoharu.service;
+package dev.nemi.aoharu.service.board;
 
-import dev.nemi.aoharu.PageRequestDTO;
+import dev.nemi.aoharu.BoardPageRequestDTO;
 import dev.nemi.aoharu.PageResponseDTO;
 
 public interface BoardService {
@@ -8,7 +8,7 @@ public interface BoardService {
 
   BoardViewDTO getOne(Long id);
 
-  PageResponseDTO<BoardViewDTO> search(PageRequestDTO pageRequestDTO);
+  PageResponseDTO<BoardViewDTO> search(BoardPageRequestDTO pageRequestDTO);
 
   void edit(BoardEditDTO dto);
 

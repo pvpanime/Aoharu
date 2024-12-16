@@ -1,7 +1,7 @@
-package dev.nemi.aoharu.service;
+package dev.nemi.aoharu.service.board;
 
 
-import dev.nemi.aoharu.PageRequestDTO;
+import dev.nemi.aoharu.BoardPageRequestDTO;
 import dev.nemi.aoharu.PageResponseDTO;
 import dev.nemi.aoharu.prime.Board;
 import dev.nemi.aoharu.repository.BoardRepo;
@@ -40,7 +40,7 @@ public class BoardServiceImpl implements BoardService {
   }
 
   @Override
-  public PageResponseDTO<BoardViewDTO> search(PageRequestDTO pageRequestDTO) {
+  public PageResponseDTO<BoardViewDTO> search(BoardPageRequestDTO pageRequestDTO) {
     Page<Board> page = boardRepo.realSearch(pageRequestDTO.getPageable("id"), pageRequestDTO.getSearchFor(), pageRequestDTO.getSearch());
     List<BoardViewDTO> list = page.getContent().stream().map(board -> modelMapper.map(board, BoardViewDTO.class)).toList();
 

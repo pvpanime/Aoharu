@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class BucketSearchImpl extends QuerydslRepositorySupport implements BucketSearch {
@@ -18,12 +19,12 @@ public class BucketSearchImpl extends QuerydslRepositorySupport implements Bucke
   }
 
   @Override
-  public Page<Bucket> search(Pageable pageable, String[] searchFor, String search) {
+  public Page<Bucket> search(Pageable pageable, String[] searchFor, String search, int[] statusOf, LocalDateTime dueStart, LocalDateTime dueEnd) {
     QBucket bucket = QBucket.bucket;
     JPQLQuery<Bucket> query = from(bucket);
 
-    BooleanBuilder bb = new BooleanBuilder();
     if (searchFor != null && searchFor.length > 0 && search != null && !search.isEmpty()) {
+      BooleanBuilder bb = new BooleanBuilder();
       for (String sFor : searchFor) {
         switch (sFor) {
           case "title":
@@ -38,7 +39,16 @@ public class BucketSearchImpl extends QuerydslRepositorySupport implements Bucke
       query.where(bb);
     }
 
+    if (statusOf != null && statusOf.length > 0) {
+      BooleanBuilder bb = new BooleanBuilder();
+      for (int s : statusOf) {
+        bb.or(bucket.status.eq(s));
+      }
+      query.where(bb);
+    }
 
+    if (dueStart != null) query.where(bucket.dueTo.goe(dueStart));
+    if (dueEnd != null) query.where(bucket.dueTo.loe(dueEnd));
 
     this.getQuerydsl().applyPagination(pageable, query);
 

@@ -1,11 +1,13 @@
 package dev.nemi.aoharu;
 
-import dev.nemi.aoharu.service.BoardViewDTO;
-import dev.nemi.aoharu.service.BoardWriteDTO;
+import dev.nemi.aoharu.service.board.BoardViewDTO;
 import dev.nemi.aoharu.repository.BucketRepo;
 import dev.nemi.aoharu.prime.Bucket;
-import dev.nemi.aoharu.service.BoardService;
+import dev.nemi.aoharu.service.board.BoardService;
+import dev.nemi.aoharu.service.bucket.BucketService;
+import dev.nemi.aoharu.service.bucket.BucketViewDTO;
 import lombok.extern.log4j.Log4j2;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,8 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
-import java.util.List;
 
 @SpringBootTest
 @Log4j2
@@ -24,7 +24,7 @@ public class BoardRepoTest {
   private BoardService boardService;
 
   @Autowired
-  private BucketRepo bucketRepo;
+  private BucketService bucketService;
 
 //  @Test
 //  public void insertTest() {
@@ -96,28 +96,28 @@ public class BoardRepoTest {
     pg.forEach(log::info);
   }
 
-  @Test
-  public void bucketPageTest() {
-    Pageable pageable = PageRequest.of(0, 10, Sort.by("dueTo").ascending());
-    Page<Bucket> bucketPage = bucketRepo.findAll(pageable);
-
-    logPage(bucketPage);
-  }
-
-  @Test
-  public void repoJpaTest() {
-    Pageable pgb = PageRequest.of(0, 10, Sort.by("added").descending());
-    Page<Bucket> page = bucketRepo.findByTitleContainingOrderByAddedDesc("Tri", pgb);
-
-    logPage(page);
-  }
-
-  @Test
-  public void repoAnnoTest() {
-    Pageable pgb = PageRequest.of(0, 10, Sort.by("added").descending());
-    Page<Bucket> page = bucketRepo.endsWith("1", pgb);
-    logPage(page);
-  }
+//  @Test
+//  public void bucketPageTest() {
+//    Pageable pageable = PageRequest.of(0, 10, Sort.by("dueTo").ascending());
+//    Page<Bucket> bucketPage = bucketRepo.findAll(pageable);
+//
+//    logPage(bucketPage);
+//  }
+//
+//  @Test
+//  public void repoJpaTest() {
+//    Pageable pgb = PageRequest.of(0, 10, Sort.by("added").descending());
+//    Page<Bucket> page = bucketRepo.findByTitleContainingOrderByAddedDesc("Tri", pgb);
+//
+//    logPage(page);
+//  }
+//
+//  @Test
+//  public void repoAnnoTest() {
+//    Pageable pgb = PageRequest.of(0, 10, Sort.by("added").descending());
+//    Page<Bucket> page = bucketRepo.endsWith("1", pgb);
+//    logPage(page);
+//  }
 
 //  @Test
 //  public void querydslTest() {
@@ -130,15 +130,15 @@ public class BoardRepoTest {
 //    logPage(result);
 //  }
 
-  @Test
-  public void bucketQuerydslTest() {
-    Pageable pgb = PageRequest.of(0, 10, Sort.by("added").descending());
-    Page<Bucket> result = bucketRepo.search(
-      pgb, new String[] { "title", "description" }, "12"
-    );
-
-    logPage(result);
-  }
+//  @Test
+//  public void bucketQuerydslTest() {
+//    Pageable pgb = PageRequest.of(0, 10, Sort.by("added").descending());
+//    Page<Bucket> result = bucketRepo.search(
+//      pgb, new String[] { "title", "description" }, "12"
+//    );
+//
+//    logPage(result);
+//  }
 
 //
 //  @Test
@@ -168,7 +168,15 @@ public class BoardRepoTest {
 
   @Test
   public void boardListTest() {
-    PageResponseDTO<BoardViewDTO> responseDTO = boardService.search(PageRequestDTO.DEFAULT);
+    PageResponseDTO<BoardViewDTO> responseDTO = boardService.search(BoardPageRequestDTO.DEFAULT);
     log.info("BoardList={}", responseDTO);
+  }
+
+  @Test
+  public void bucketListTest() {
+    log.info("BucketList={}", BucketPageRequestDTO.DEFAULT);
+    Assertions.assertNotNull(BucketPageRequestDTO.DEFAULT);
+    PageResponseDTO<BucketViewDTO> responseDTO = bucketService.getListOf(BucketPageRequestDTO.DEFAULT);
+    log.info("BucketList={}", responseDTO);
   }
 }

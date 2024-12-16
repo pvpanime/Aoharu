@@ -23,14 +23,14 @@ public class Bucket extends BaseEntity {
   @Column(length = 1024, nullable = false)
   private String description;
 
-  @Column(length = 32, nullable = false)
-  private String userid;
-
   @Column(nullable = false)
   private LocalDateTime dueTo;
 
   @Column(nullable = false)
   private Integer status;
+
+  @Column(length = 32, nullable = false)
+  private String userid;
 
   public void update(String title, String description, LocalDateTime dueTo, Integer status) {
     this.title = title;

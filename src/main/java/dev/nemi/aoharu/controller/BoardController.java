@@ -1,17 +1,25 @@
 package dev.nemi.aoharu.controller;
 
-import dev.nemi.aoharu.PageRequestDTO;
+import dev.nemi.aoharu.BoardPageRequestDTO;
 import dev.nemi.aoharu.PageResponseDTO;
-import dev.nemi.aoharu.service.BoardService;
-import dev.nemi.aoharu.service.BoardViewDTO;
+import dev.nemi.aoharu.service.board.BoardEditDTO;
+import dev.nemi.aoharu.service.board.BoardService;
+import dev.nemi.aoharu.service.board.BoardViewDTO;
+import dev.nemi.aoharu.service.board.BoardWriteDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Log4j2
 @Controller
@@ -21,27 +29,106 @@ public class BoardController {
   private final BoardService boardService;
 
   @GetMapping("/board")
-  public String board(
-    @ModelAttribute("requestDTO") PageRequestDTO pageRequestDTO,
+  public String boardIndex(
+    @Valid @ModelAttribute("requestDTO") BoardPageRequestDTO pageRequestDTO,
+    BindingResult pageBR,
     Model model
   ) {
+    if (pageBR.hasErrors()) { return "redirect:/board"; }
     PageResponseDTO<BoardViewDTO> dto = boardService.search(pageRequestDTO);
     model.addAttribute("dto", dto);
-//    model.addAttribute("currentPage", pageRequestDTO.getPage());
-//    model.addAttribute("maxPage", pageRequestDTO.getPage());
     return "board/index";
   }
-
 
   @GetMapping("/board/view/{id}")
   public String view(
     @PathVariable long id,
-    @ModelAttribute("requestDTO") PageRequestDTO pageRequestDTO,
+    @Valid @ModelAttribute("requestDTO") BoardPageRequestDTO pageRequestDTO,
+    BindingResult pageBR,
     Model model
     ) {
+    if (pageBR.hasErrors()) { return "redirect:/board/view/"+id; }
+
     BoardViewDTO board = boardService.getOne(id);
     model.addAttribute("board", board);
+    model.addAttribute("deleteAction", "/board/delete/"+id);
     return "board/view";
+  }
+
+
+
+  @GetMapping("/board/write")
+  public String write(
+    Model model
+  ) {
+    model.addAttribute("useEdit", false);
+    model.addAttribute("useTitle", "Write");
+    model.addAttribute("useAction", "/board/write");
+    model.addAttribute("board", BoardWriteDTO.EMPTY);
+    return "board/edit";
+  }
+
+  @PostMapping("/board/write")
+  public String write(
+    @Valid BoardWriteDTO boardWriteDTO,
+    BindingResult boardBR,
+    RedirectAttributes ra
+  ) {
+    if (boardBR.hasErrors()) {
+      ra.addFlashAttribute("board", boardWriteDTO);
+      ra.addFlashAttribute("invalid", boardBR.getAllErrors());
+      return "redirect:/board/write";
+    }
+    // TODO: add authentication
+    if (boardWriteDTO.getUserid() == null) boardWriteDTO.setUserid("hina");
+    Long id = boardService.write(boardWriteDTO);
+    if (id != null) {
+      return "redirect:/board/view/"+id;
+    } else {
+      throw new RuntimeException("Failed to write");
+    }
+  }
+
+  @GetMapping("/board/edit/{id}")
+  public String edit(
+    @Valid @ModelAttribute("requestDTO") BoardPageRequestDTO pageRequestDTO,
+    BindingResult pageBR,
+    @PathVariable long id,
+    Model model
+  ) {
+    if (pageBR.hasErrors()) return "redirect:/board/edit/"+id;
+
+    BoardViewDTO board = boardService.getOne(id);
+    model.addAttribute("useEdit", true);
+    model.addAttribute("useTitle", "Edit");
+    model.addAttribute("useAction", "/board/edit");
+    model.addAttribute("board", board);
+    return "board/edit";
+  }
+
+
+  @PostMapping("/board/edit")
+  public String edit(
+    @ModelAttribute("requestDTO") BoardPageRequestDTO pageRequestDTO,
+    @Valid BoardEditDTO boardEditDTO,
+    BindingResult boardBR,
+    RedirectAttributes ra
+  ) {
+    if (boardBR.hasErrors()) {
+      List<ObjectError> allErrors = boardBR.getAllErrors();
+      ra.addFlashAttribute("invalid", allErrors);
+      return "redirect:/board/edit/"+boardEditDTO.getId() + pageRequestDTO.useQuery();
+    }
+    boardService.edit(boardEditDTO);
+    return "redirect:/board/view/"+boardEditDTO.getId() + pageRequestDTO.useQuery();
+  }
+
+  @PostMapping("/board/delete/{id}")
+  public String delete(
+    @PathVariable long id
+  ) {
+    boardService.delete(id);
+    return "redirect:/board";
   }
 
 }

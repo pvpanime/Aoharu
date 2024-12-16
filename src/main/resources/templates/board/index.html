@@ -21,7 +21,7 @@
           <input name="searchFor" value="writer" type="checkbox" class="btn-check" id="filterWriter" autocomplete="off" th:checked="${requestDTO.isSearchingFor('writer')}">
           <label class="btn btn-outline-light" for="filterWriter" style="border-radius: 0">Writer</label>
         </div>
-        <input name="search" type="text" class="form-control" placeholder="Search" />
+        <input name="search" type="text" class="form-control" placeholder="Search" th:value="${requestDTO.getSearch()}" />
         <input type="submit" class="btn btn-primary" value="Search" />
       </div>
     </form>

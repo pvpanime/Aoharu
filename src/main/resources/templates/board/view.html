@@ -4,14 +4,16 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/voler.html}">
 <head>
-  <title>Arona</title>
+  <title th:text="${board.getTitle()}"></title>
 </head>
-<div class="container-fluid row" layout:fragment="content">
+<div class="container" layout:fragment="content">
   <main class="container">
     <div class="jumbotron bg-dark text-light text-center py-5">
-      <h1 class="display-1">[[${board.getTitle()}]]</h1>
+      <h1 th:text="${board.getTitle()}" class="display-1"></h1>
+      <div class="text-muted">Added at <span th:text="${#temporals.format(board.getAdded(), 'yyyy-MM-dd HH:mm')}" /></div>
+      <div th:if="${!board.getAdded().equals(board.getUpdated())}" class="text-muted">*Updated at <span th:text="${#temporals.format(board.getUpdated(), 'yyyy-MM-dd HH:mm')}" /></div>
     </div>
-    <div id="board-md" class="p-3 rounded"></div>
+    <div id="board-md" class="p-3 rounded" th:text="${board.getContent()}"></div>
   </main>
   <nav class="mt-4">
     <div class="d-flex justify-content-between">
@@ -23,14 +25,26 @@
 </div>
 <th:block layout:fragment="script">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script id="chunk" type="text/plain" th:text="${board.getContent()}"></script>
+<!--  <script id="chunk" type="text/plain" th:text="${board.getContent()}"></script>-->
   <script th:inline="javascript">
-    const chunk = document.getElementById("chunk").innerHTML;
+    const chunk = document.getElementById("board-md").innerHTML;
     marked.setOptions({
       breaks: true
     });
     document.getElementById('board-md').innerHTML = marked.parse(chunk);
 
+    function deleteAction() {
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = /*[[${deleteAction}]]*/ '';
+      document.body.appendChild(form);
+      form.submit();
+    }
+    document.getElementById('DeleteButton').addEventListener('click', e => {
+      if (window.confirm('Are you sure you want to delete this board?')) {
+        deleteAction();
+      }
+    });
   </script>
 </th:block>
 </html>
