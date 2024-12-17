@@ -7,11 +7,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BoardCommentDTO {
+public class BoardCommentViewDTO {
+
+  @NotNull
+  private Long id;
 
   @NotNull
   private Long boardId;
@@ -21,4 +26,11 @@ public class BoardCommentDTO {
 
   @NotBlank
   private String reUserid;
+
+  @NotNull
+  private LocalDateTime added;
+
+  @NotNull
+  private LocalDateTime updated;
+
 }
