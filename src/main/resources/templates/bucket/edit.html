@@ -24,9 +24,9 @@
         </div>
         <div class="input-group mb-3">
           <span class="input-group-text" id="basic-addon1">Status</span>
-          <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+          <div class="btn-group" role="group">
             <input type="radio" class="btn-check" name="status" id="btnradio1" value="0" autocomplete="off" th:checked="${bucket.getStatus() == 0}" >
-            <label style="border-radius: 0;" class="btn btn-outline-secondary" for="btnradio1">In Progress</label>
+            <label class="btn btn-outline-secondary" for="btnradio1" style="border-radius: 0;" >In Progress</label>
             <input type="radio" class="btn-check" name="status" id="btnradio2" value="1" autocomplete="off" th:checked="${bucket.getStatus() == 1}" >
             <label class="btn btn-outline-success" for="btnradio2">Finished</label>
             <input type="radio" class="btn-check" name="status" id="btnradio3" value="-1" autocomplete="off" th:checked="${bucket.getStatus() == -1}" >
@@ -47,19 +47,13 @@
       </div>
     </div>
   </form>
-  <!--/*@thymesVar id="invalid" type="java.util.List<org.springframework.validation.ObjectError>"*/-->
   </main>
+  <!--/*@thymesVar id="invalid" type="java.util.List<org.springframework.validation.ObjectError>"*/-->
   <div th:if="${invalid != null}">
     <div th:each="error : ${invalid}" class="alert alert-danger alert-dismissible fade show" role="alert">
       <span th:text="${error.getField()}" /> <span th:text="${error.getDefaultMessage()}" />
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
   </div>
 </div>
-<th:block layout:fragment="script">
-  <!--/*@thymesVar id="invalid" type="java.util.List<org.springframework.validation.ObjectError>"*/-->
-  <script th:if="${invalid != null}" th:inline="javascript">
-    const invalid = /*[[${invalid}]]*/ '';
-  </script>
-</th:block>
 </html>

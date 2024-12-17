@@ -9,4 +9,8 @@ public interface BucketService {
   BucketViewDTO getOne(Long id);
 
   PageResponseDTO<BucketViewDTO> getListOf(BucketPageRequestDTO dto);
+
+  void update(BucketEditDTO dto);
+
+  void delete(Long id);
 }

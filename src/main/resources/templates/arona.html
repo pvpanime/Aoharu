@@ -7,8 +7,8 @@
   <title>Arona</title>
 </head>
   <main layout:fragment="content">
-    <img th:if="${param.useChroma}" th:src="@{/plana.png}" th:alt="${plana}">
-    <img th:unless="${param.useChroma}" th:src="@{/arona.png}" th:alt="${arona}">
+    <img th:if="${param.useChroma}" th:src="@{/img/plana.png}" th:alt="${plana}">
+    <img th:unless="${param.useChroma}" th:src="@{/img/arona.png}" th:alt="${arona}">
     <div>
       <a th:href="@{/}">Back to Home</a>
     </div>

@@ -76,6 +76,10 @@ public class BucketPageRequestDTO implements PageRequestDTO {
     return PageRequest.of(this.page - 1, this.size, Sort.by(props).descending());
   }
 
+  public Pageable getDefaultPageable() {
+    return PageRequest.of(this.page - 1, this.size, Sort.by("dueTo").ascending());
+  }
+
   public List<Pair<String, String>> useParams(int page) {
     List<Pair<String, String>> params = new ArrayList<>();
     if (page > 1) params.add(Pair.of("page", Integer.toString(page)));

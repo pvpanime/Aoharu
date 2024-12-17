@@ -60,8 +60,10 @@ dependencies {
 //    implementation group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.2.1.Final'
 // https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.4.0'
-    implementation 'jakarta.validation:jakarta.validation-api'
+//    implementation 'jakarta.validation:jakarta.validation-api'
 
+    // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.7.0'
 }
 
 tasks.named('test') {

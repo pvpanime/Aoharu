@@ -58,7 +58,7 @@ public class BoardController {
 
 
   @GetMapping("/board/write")
-  public String write(
+  public String writeView(
     Model model
   ) {
     model.addAttribute("useEdit", false);
@@ -90,7 +90,7 @@ public class BoardController {
   }
 
   @GetMapping("/board/edit/{id}")
-  public String edit(
+  public String editView(
     @Valid @ModelAttribute("requestDTO") BoardPageRequestDTO pageRequestDTO,
     BindingResult pageBR,
     @PathVariable long id,

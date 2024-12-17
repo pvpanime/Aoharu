@@ -38,7 +38,7 @@ public class BucketServiceImpl implements BucketService {
 
   @Override
   public PageResponseDTO<BucketViewDTO> getListOf(BucketPageRequestDTO dto) {
-    Page<Bucket> page = repo.search(dto.getPageable("dueTo"), dto.getSearchFor(), dto.getSearch(), dto.getStatusOf(), dto.getDueStart(), dto.getDueEnd());
+    Page<Bucket> page = repo.search(dto.getDefaultPageable(), dto.getSearchFor(), dto.getSearch(), dto.getStatusOf(), dto.getDueStart(), dto.getDueEnd());
     List<BucketViewDTO> list = page.getContent().stream().map(bucket -> modelMapper.map(bucket, BucketViewDTO.class)).toList();
 
     return PageResponseDTO.<BucketViewDTO>withAll()
@@ -46,6 +46,18 @@ public class BucketServiceImpl implements BucketService {
       .dtoList(list)
       .total(page.getTotalElements())
       .build();
+  }
+
+  @Override
+  public void update(BucketEditDTO dto) {
+    Bucket bucket = repo.findById(dto.getId()).orElseThrow();
+    bucket.update(dto.getTitle(), dto.getDescription(), dto.getDueTo(), dto.getStatus());
+    repo.save(bucket);
+  }
+
+  @Override
+  public void delete(Long id) {
+    repo.deleteById(id);
   }
 
 }

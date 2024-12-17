@@ -109,6 +109,15 @@ public class BucketController {
       ra.addFlashAttribute("invalid", br.getAllErrors());
       return "redirect:/bucket/edit/"+bucketEditDTO.getId() + pageRequestDTO.useQuery();
     }
+    bucketService.update(bucketEditDTO);
     return "redirect:/bucket/view/"+bucketEditDTO.getId() + pageRequestDTO.useQuery();
+  }
+
+  @PostMapping("/bucket/delete/{id}")
+  public String delete(
+    @PathVariable long id
+  ) {
+    bucketService.delete(id);
+    return "redirect:/bucket";
   }
 }

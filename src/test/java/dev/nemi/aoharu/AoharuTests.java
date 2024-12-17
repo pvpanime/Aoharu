@@ -1,9 +1,7 @@
 package dev.nemi.aoharu;
 
-import dev.nemi.aoharu.service.board.BoardViewDTO;
-import dev.nemi.aoharu.repository.BucketRepo;
-import dev.nemi.aoharu.prime.Bucket;
 import dev.nemi.aoharu.service.board.BoardService;
+import dev.nemi.aoharu.service.board.BoardViewDTO;
 import dev.nemi.aoharu.service.bucket.BucketService;
 import dev.nemi.aoharu.service.bucket.BucketViewDTO;
 import lombok.extern.log4j.Log4j2;
@@ -12,13 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
-@SpringBootTest
 @Log4j2
-public class BoardRepoTest {
+@SpringBootTest
+class AoharuTests {
 
   @Autowired
   private BoardService boardService;
@@ -179,4 +174,6 @@ public class BoardRepoTest {
     PageResponseDTO<BucketViewDTO> responseDTO = bucketService.getListOf(BucketPageRequestDTO.DEFAULT);
     log.info("BucketList={}", responseDTO);
   }
+
+
 }

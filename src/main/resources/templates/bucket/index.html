@@ -23,34 +23,37 @@
         <input name="search" type="text" class="form-control" placeholder="Search" th:value="${requestDTO.getSearch()}" />
         <input type="submit" class="btn btn-primary" value="Search" />
       </div>
-      <div class="py-2">
-        <div>Status</div>
-        <div class="btn-group" role="group">
-          <input type="checkbox" class="btn-check" name="statusOf" id="status-in-progress" value="0" th:checked="${requestDTO.isLookingForStatusOf(0)}" autocomplete="off">
-          <label class="btn btn-outline-light" for="status-in-progress">In Progress</label>
-          <input type="checkbox" class="btn-check" name="statusOf" id="status-finished" value="1" th:checked="${requestDTO.isLookingForStatusOf(1)}" autocomplete="off">
-          <label class="btn btn-outline-success" for="status-finished">Finished</label>
-          <input type="checkbox" class="btn-check" name="statusOf" id="status-dropped" value="-1" th:checked="${requestDTO.isLookingForStatusOf(-1)}" autocomplete="off">
-          <label class="btn btn-outline-danger" for="status-dropped">Dropped</label>
-        </div>
-      </div>
-      <div class="py-2">
-        <div>Due Date range</div>
-        <div class="row">
-          <div class="col">
-            <div class="form-floating">
-              <input type="datetime-local" class="form-control" name="dueStart" id="dueStart" autocomplete="off" th:value="${requestDTO.getDueStart()}">
-              <label for="dueStart">From</label>
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-floating">
-              <input type="datetime-local" class="form-control" name="dueEnd" id="dueEnd" autocomplete="off" th:value="${requestDTO.getDueEnd()}">
-              <label for="dueEnd">To</label>
-            </div>
+      <div class="row py-2">
+        <div class="col-auto">
+          <div>Status</div>
+          <div class="btn-group" role="group">
+            <input type="checkbox" class="btn-check" name="statusOf" id="status-in-progress" value="0" th:checked="${requestDTO.isLookingForStatusOf(0)}" autocomplete="off">
+            <label class="btn btn-outline-light" for="status-in-progress">In Progress</label>
+            <input type="checkbox" class="btn-check" name="statusOf" id="status-finished" value="1" th:checked="${requestDTO.isLookingForStatusOf(1)}" autocomplete="off">
+            <label class="btn btn-outline-success" for="status-finished">Finished</label>
+            <input type="checkbox" class="btn-check" name="statusOf" id="status-dropped" value="-1" th:checked="${requestDTO.isLookingForStatusOf(-1)}" autocomplete="off">
+            <label class="btn btn-outline-danger" for="status-dropped">Dropped</label>
           </div>
         </div>
+        <div class="col">
+          <div>Due Date range</div>
+          <div class="row">
+            <div class="col">
+              <div class="form-floating">
+                <input type="datetime-local" class="form-control" name="dueStart" id="dueStart" autocomplete="off" th:value="${requestDTO.getDueStart()}">
+                <label for="dueStart">From</label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-floating">
+                <input type="datetime-local" class="form-control" name="dueEnd" id="dueEnd" autocomplete="off" th:value="${requestDTO.getDueEnd()}">
+                <label for="dueEnd">To</label>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
     </form>
   </div>
   <div>

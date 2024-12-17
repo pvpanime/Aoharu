@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardSearch {
 
   public BoardSearchImpl() {
