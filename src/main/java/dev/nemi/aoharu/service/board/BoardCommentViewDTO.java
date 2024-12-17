@@ -25,7 +25,7 @@ public class BoardCommentViewDTO {
   private String content;
 
   @NotBlank
-  private String reUserid;
+  private String userid;
 
   @NotNull
   private LocalDateTime added;

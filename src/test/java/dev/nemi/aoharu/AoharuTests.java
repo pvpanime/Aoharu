@@ -22,16 +22,6 @@ class AoharuTests {
   private BucketService bucketService;
 
 //  @Test
-//  public void insertTest() {
-//    IntStream.rangeClosed(1, 100).forEach(i -> {
-//      Board board = Board.builder().title("Title="+i).content("This is the " + (i * i) + "-th content.").userid("hina").status(1).build();
-//      Board result = boardRepo.save(board);
-//
-//      log.info("Board={}", result.getId());
-//    });
-//  }
-
-//  @Test
 //  public void selectTest() {
 //    Optional<Board> board = boardRepo.findById(250L);
 //    Assertions.assertTrue(board.isPresent());
@@ -160,12 +150,6 @@ class AoharuTests {
 //  public void boardDeleteTest() {
 //    boardService.delete(1L);
 //  }
-
-  @Test
-  public void boardListTest() {
-    PageResponseDTO<BoardViewDTO> responseDTO = boardService.search(BoardPageRequestDTO.DEFAULT);
-    log.info("BoardList={}", responseDTO);
-  }
 
   @Test
   public void bucketListTest() {

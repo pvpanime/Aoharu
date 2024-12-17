@@ -10,6 +10,8 @@ public interface BoardService {
 
   PageResponseDTO<BoardViewDTO> search(BoardPageRequestDTO pageRequestDTO);
 
+  PageResponseDTO<BoardListViewDTO> getList(BoardPageRequestDTO pageRequestDTO);
+
   void edit(BoardEditDTO dto);
 
   void delete(Long id);

@@ -20,5 +20,5 @@ public class BoardCommentWriteDTO {
   private String content;
 
   @NotBlank
-  private String reUserid;
+  private String userid;
 }

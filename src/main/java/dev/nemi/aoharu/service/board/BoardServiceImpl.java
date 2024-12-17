@@ -41,12 +41,22 @@ public class BoardServiceImpl implements BoardService {
 
   @Override
   public PageResponseDTO<BoardViewDTO> search(BoardPageRequestDTO pageRequestDTO) {
-    Page<Board> page = boardRepo.realSearch(pageRequestDTO.getPageable("id"), pageRequestDTO.getSearchFor(), pageRequestDTO.getSearch());
+    Page<Board> page = boardRepo.search(pageRequestDTO.getPageable("id"), pageRequestDTO.getSearchFor(), pageRequestDTO.getSearch());
     List<BoardViewDTO> list = page.getContent().stream().map(board -> modelMapper.map(board, BoardViewDTO.class)).toList();
 
     return PageResponseDTO.<BoardViewDTO>withAll()
       .pageRequestDTO(pageRequestDTO)
       .dtoList(list)
+      .total(page.getTotalElements())
+      .build();
+  }
+
+  @Override
+  public PageResponseDTO<BoardListViewDTO> getList(BoardPageRequestDTO pageRequestDTO) {
+    Page<BoardListViewDTO> page = boardRepo.searchAsDTO(pageRequestDTO.getPageable("id"), pageRequestDTO.getSearchFor(), pageRequestDTO.getSearch());
+    return PageResponseDTO.<BoardListViewDTO>withAll()
+      .pageRequestDTO(pageRequestDTO)
+      .dtoList(page.getContent())
       .total(page.getTotalElements())
       .build();
   }
