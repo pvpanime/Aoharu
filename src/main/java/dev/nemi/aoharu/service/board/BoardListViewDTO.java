@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class BoardListViewDTO {
-  private Long id;
+  private Long bid;
   private String title;
   private String userid;
   private LocalDateTime added;

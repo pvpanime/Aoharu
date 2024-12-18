@@ -95,7 +95,7 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 
 
     JPQLQuery<BoardListViewDTO> dtoQuery = query.select(
-      Projections.bean(BoardListViewDTO.class, board.id, board.title, board.userid, board.added, comment.count().as("commentCount"))
+      Projections.bean(BoardListViewDTO.class, board.bid, board.title, board.userid, board.added, comment.count().as("commentCount"))
     );
 
     this.getQuerydsl().applyPagination(pageable, dtoQuery);

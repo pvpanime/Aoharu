@@ -2,10 +2,7 @@ package dev.nemi.aoharu.controller;
 
 import dev.nemi.aoharu.BoardPageRequestDTO;
 import dev.nemi.aoharu.PageResponseDTO;
-import dev.nemi.aoharu.service.board.BoardEditDTO;
-import dev.nemi.aoharu.service.board.BoardService;
-import dev.nemi.aoharu.service.board.BoardViewDTO;
-import dev.nemi.aoharu.service.board.BoardWriteDTO;
+import dev.nemi.aoharu.service.board.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -35,7 +32,8 @@ public class BoardController {
     Model model
   ) {
     if (pageBR.hasErrors()) { return "redirect:/board"; }
-    PageResponseDTO<BoardViewDTO> dto = boardService.search(pageRequestDTO);
+//    PageResponseDTO<BoardViewDTO> dto = boardService.search(pageRequestDTO);
+    PageResponseDTO<BoardListViewDTO> dto = boardService.getList(pageRequestDTO);
     model.addAttribute("dto", dto);
     return "board/index";
   }
@@ -117,10 +115,10 @@ public class BoardController {
     if (boardBR.hasErrors()) {
       List<ObjectError> allErrors = boardBR.getAllErrors();
       ra.addFlashAttribute("invalid", allErrors);
-      return "redirect:/board/edit/"+boardEditDTO.getId() + pageRequestDTO.useQuery();
+      return "redirect:/board/edit/"+boardEditDTO.getBid() + pageRequestDTO.useQuery();
     }
     boardService.edit(boardEditDTO);
-    return "redirect:/board/view/"+boardEditDTO.getId() + pageRequestDTO.useQuery();
+    return "redirect:/board/view/"+boardEditDTO.getBid() + pageRequestDTO.useQuery();
   }
 
   @PostMapping("/board/delete/{id}")

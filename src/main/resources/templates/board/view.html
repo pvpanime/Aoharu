@@ -7,31 +7,49 @@
   <title th:text="${board.getTitle()}"></title>
 </head>
 <div class="container" layout:fragment="content">
-  <main class="container">
+  <main>
     <div class="jumbotron bg-dark text-light text-center py-5">
       <h1 th:text="${board.getTitle()}" class="display-1"></h1>
       <div class="text-muted">Added at <span th:text="${#temporals.format(board.getAdded(), 'yyyy-MM-dd HH:mm')}" /></div>
       <div th:if="${!board.getAdded().equals(board.getUpdated())}" class="text-muted">*Updated at <span th:text="${#temporals.format(board.getUpdated(), 'yyyy-MM-dd HH:mm')}" /></div>
     </div>
-    <div id="board-md" class="p-3 rounded" th:text="${board.getContent()}"></div>
+    <div id="board-md" class="p-3 rounded card mb-3" th:text="${board.getContent()}"></div>
   </main>
+  <section>
+    <div class="card">
+      <div class="card-header">Comments</div>
+      <div id="comments-here" class="card-body"></div>
+      <div class="card-body">
+        <div class="form-floating">
+          <textarea class="form-control" placeholder="Leave a comment here" id="commentTA" style="height: 120px"></textarea>
+          <label for="commentTA">Leave your comment</label>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-primary">Comment</button>
+      </div>
+    </div>
+  </section>
   <nav class="mt-4">
     <div class="d-flex justify-content-between">
       <a th:href="@{'/board' + ${requestDTO.useQuery()}}" class="btn btn-secondary">Board List</a>
-      <a th:href="@{'/board/edit/' + ${board.getId()} + ${requestDTO.useQuery()}}" class="btn btn-warning">Edit</a>
+      <a th:href="@{'/board/edit/' + ${board.getBid()} + ${requestDTO.useQuery()}}" class="btn btn-warning">Edit</a>
       <button id="DeleteButton" class="btn btn-danger">Delete</button>
     </div>
   </nav>
 </div>
 <th:block layout:fragment="script">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<!--  <script id="chunk" type="text/plain" th:text="${board.getContent()}"></script>-->
   <script th:inline="javascript">
     const chunk = document.getElementById("board-md").innerHTML;
     marked.setOptions({
       breaks: true
     });
     document.getElementById('board-md').innerHTML = marked.parse(chunk);
+
+
+    const bid = /*[[${board.getBid()}]]*/ '';
+    const commentContainer = document.getElementById('comments-here');
 
     function deleteAction() {
       const form = document.createElement('form');
@@ -40,11 +58,32 @@
       document.body.appendChild(form);
       form.submit();
     }
+
+    async function fetchComments(page = 1, size) {
+      const {data} = await axios.get('/api/comment/list/' + bid);
+      commentContainer.innerHTML = '';
+      for (const comment of (data.dtoList ?? [])) {
+        const el = document.createElement('div');
+        el.classList.add('card', 'mb-2');
+        el.innerHTML = `<div class="card-body">
+              <span class="fw-bold text-info-emphasis"></span>
+              <span class="comment-content"></span>
+              <span class="text-muted fw-light"></span>
+            </div>`;
+        el.querySelector('.fw-bold').innerText = comment.userid;
+        el.querySelector('.text-muted').innerText = comment.added;
+        el.querySelector('.comment-content').innerText = comment.content;
+        commentContainer.append(el);
+      }
+    }
+
     document.getElementById('DeleteButton').addEventListener('click', e => {
       if (window.confirm('Are you sure you want to delete this board?')) {
         deleteAction();
       }
     });
+
+    fetchComments();
   </script>
 </th:block>
 </html>

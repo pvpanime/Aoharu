@@ -4,9 +4,7 @@ import dev.nemi.aoharu.prime.Board;
 import dev.nemi.aoharu.prime.BoardComment;
 import dev.nemi.aoharu.repository.BoardCommentRepo;
 import dev.nemi.aoharu.repository.BoardRepo;
-import dev.nemi.aoharu.service.board.BoardListViewDTO;
-import dev.nemi.aoharu.service.board.BoardService;
-import dev.nemi.aoharu.service.board.BoardViewDTO;
+import dev.nemi.aoharu.service.board.*;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Random;
 
 @Log4j2
 @SpringBootTest
@@ -30,12 +30,8 @@ public class BoardTest {
   @Autowired
   private BoardCommentRepo boardCommentRepo;
 
-
-  @Test
-  public void boardListTest() {
-    PageResponseDTO<BoardViewDTO> responseDTO = boardService.search(BoardPageRequestDTO.DEFAULT);
-    log.info("BoardList={}", responseDTO);
-  }
+  @Autowired
+  private BoardCommentService boardCommentService;
 
   @Test
   public void addBoardTest() {
@@ -79,6 +75,25 @@ public class BoardTest {
 
     boardListView.getContent().forEach(log::info);
 
+  }
+
+  @Test
+  public void addCommentTest() {
+    Random random = new Random();
+    Long bid = 104L;
+    BoardCommentWriteDTO commentDTO = BoardCommentWriteDTO.builder()
+      .bid(bid)
+      .content("comment " + random.nextInt(100000) + " for board " + bid)
+      .userid("hina").build();
+    Long cid = boardCommentService.add(commentDTO);
+    BoardComment comment = boardCommentRepo.findById(cid).orElseThrow();
+    log.info("BoardComment={}", comment);
+  }
+
+  @Test
+  public void getCommentsTest() {
+    PageResponseDTO<BoardCommentViewDTO> comments = boardCommentService.getCommentsOf(104L, BasePageRequestDTO.of(0, 10));
+    comments.getDtoList().forEach(log::info);
   }
 
 

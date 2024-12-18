@@ -14,7 +14,7 @@
         <input type="hidden" th:name="${pair.getFirst()}" th:value="${pair.getSecond()}">
       </th:block>
     </th:block>
-    <input th:if="${useEdit}" type="hidden" name="id" th:value="${board.getId()}">
+    <input th:if="${useEdit}" type="hidden" name="bid" th:value="${board.getBid()}">
     <div class="card">
       <div class="card-header" th:text="${useTitle}"></div>
       <div class="card-body">

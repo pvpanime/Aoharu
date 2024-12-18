@@ -5,18 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BoardViewDTO {
-  private Long bid;
-  private String title;
+public class BoardCommentEditDTO {
+  // comment ID would be specified in path variable.
   private String content;
-  private String userid;
-  private Integer status;
-  private LocalDateTime added;
-  private LocalDateTime updated;
 }

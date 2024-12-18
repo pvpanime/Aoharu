@@ -8,8 +8,6 @@ public interface BoardService {
 
   BoardViewDTO getOne(Long id);
 
-  PageResponseDTO<BoardViewDTO> search(BoardPageRequestDTO pageRequestDTO);
-
   PageResponseDTO<BoardListViewDTO> getList(BoardPageRequestDTO pageRequestDTO);
 
   void edit(BoardEditDTO dto);

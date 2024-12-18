@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BoardWriteDTO {
   public static final BoardWriteDTO EMPTY = BoardWriteDTO.builder().title("").content("").build();
-//  private Long id;
 
   @NotBlank
   private String title;
@@ -24,6 +23,5 @@ public class BoardWriteDTO {
 
   @Builder.Default
   private Integer status = 1;
-//  private LocalDateTime added;
-//  private LocalDateTime updated;
+
 }

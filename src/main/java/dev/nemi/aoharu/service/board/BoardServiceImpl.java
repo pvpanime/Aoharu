@@ -12,7 +12,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,7 +26,7 @@ public class BoardServiceImpl implements BoardService {
   @Override
   public Long write(BoardWriteDTO dto) {
     Board board = modelMapper.map(dto, Board.class);
-    Long id = boardRepo.save(board).getId();
+    Long id = boardRepo.save(board).getBid();
     return id;
   }
 
@@ -40,20 +39,8 @@ public class BoardServiceImpl implements BoardService {
   }
 
   @Override
-  public PageResponseDTO<BoardViewDTO> search(BoardPageRequestDTO pageRequestDTO) {
-    Page<Board> page = boardRepo.search(pageRequestDTO.getPageable("id"), pageRequestDTO.getSearchFor(), pageRequestDTO.getSearch());
-    List<BoardViewDTO> list = page.getContent().stream().map(board -> modelMapper.map(board, BoardViewDTO.class)).toList();
-
-    return PageResponseDTO.<BoardViewDTO>withAll()
-      .pageRequestDTO(pageRequestDTO)
-      .dtoList(list)
-      .total(page.getTotalElements())
-      .build();
-  }
-
-  @Override
   public PageResponseDTO<BoardListViewDTO> getList(BoardPageRequestDTO pageRequestDTO) {
-    Page<BoardListViewDTO> page = boardRepo.searchAsDTO(pageRequestDTO.getPageable("id"), pageRequestDTO.getSearchFor(), pageRequestDTO.getSearch());
+    Page<BoardListViewDTO> page = boardRepo.searchAsDTO(pageRequestDTO.getPageable("bid"), pageRequestDTO.getSearchFor(), pageRequestDTO.getSearch());
     return PageResponseDTO.<BoardListViewDTO>withAll()
       .pageRequestDTO(pageRequestDTO)
       .dtoList(page.getContent())
@@ -63,7 +50,7 @@ public class BoardServiceImpl implements BoardService {
 
   @Override
   public void edit(BoardEditDTO dto) {
-    Optional<Board> result = boardRepo.findById(dto.getId());
+    Optional<Board> result = boardRepo.findById(dto.getBid());
     Board board = result.orElseThrow();
     board.editPayload(dto.getTitle(), dto.getContent());
     boardRepo.save(board);

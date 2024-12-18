@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface BoardCommentRepo extends JpaRepository<BoardComment, Long> {
 
-  @Query("select c from BoardComment c where c.board.id = :bid")
+  @Query("select c from BoardComment c where c.board.bid = :bid")
   Page<BoardComment> getCommentsOfBoard(long bid, Pageable pageable);
 
 }

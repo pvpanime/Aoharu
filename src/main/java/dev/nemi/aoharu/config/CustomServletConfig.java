@@ -18,7 +18,7 @@ public class CustomServletConfig implements WebMvcConfigurer {
     for (String path : CLASSPATH_RESOURCE_LOCATIONS) {
       registry.addResourceHandler(String.format("/%s/**", path)).addResourceLocations(String.format("classpath:/static/%s/", path));
     }
-    registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+//    registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
   }
   
 }

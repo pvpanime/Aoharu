@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class BoardCommentWriteDTO {
 
   @NotNull
-  private Long boardId;
+  private Long bid;
 
   @NotBlank
   private String content;

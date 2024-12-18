@@ -7,6 +7,17 @@
   <title>Board</title>
 </head>
 <main class="container" layout:fragment="content">
+  <style>
+    table>tbody>tr>td.board-title-container {
+        padding: 0!important;
+    }
+    table>tbody>tr>td.board-title-container>a {
+        padding: .5rem;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+  </style>
   <div class="jumbotron display-1 text-center py-4">
     Board
   </div>
@@ -32,14 +43,19 @@
       <tr>
         <th>Title</th>
         <th>Writer</th>
-        <th>Created</th>
+        <th scope="col">Created</th>
       </tr>
       </thead>
       <tbody>
-      <tr th:each="li : ${dto.getDtoList()}">
-        <td><a th:href="@{'/board/view/' + ${li.getId()} + ${requestDTO.useQuery()}}" th:text="${li.getTitle()}" /></td>
-        <td th:text="${li.getUserid()}"></td>
-        <td th:text="${#temporals.format(li.getAdded(), 'yyyy-MM-dd HH:mm')}"></td>
+      <tr th:each="boardItem : ${dto.getDtoList()}">
+        <td class="board-title-container">
+          <a th:href="@{'/board/view/' + ${boardItem.getBid()} + ${requestDTO.useQuery()}}">
+            <span th:text="${boardItem.getTitle()}"></span>
+            <span class="comment-count badge text-bg-primary" th:if="${boardItem.commentCount > 0}" th:text="${boardItem.commentCount}"></span>
+          </a>
+        </td>
+        <td th:text="${boardItem.getUserid()}"></td>
+        <td th:text="${#temporals.format(boardItem.getAdded(), 'yyyy-MM-dd HH:mm')}"></td>
       </tr>
       </tbody>
     </table>

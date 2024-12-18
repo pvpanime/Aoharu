@@ -1,6 +1,7 @@
 package dev.nemi.aoharu.controller.advice;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -11,10 +12,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 @Log4j2
-public class CustomRestAdvice {
+public class Plana {
 
   @ExceptionHandler(BindException.class)
   @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
@@ -27,5 +29,19 @@ public class CustomRestAdvice {
       br.getFieldErrors().forEach(fe -> errorMap.put(fe.getField(), fe.getCode()));
     }
     return ResponseEntity.badRequest().body(errorMap);
+  }
+
+  @ExceptionHandler(DataIntegrityViolationException.class)
+  @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
+  public ResponseEntity<Map<String, String>> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
+    log.error(e);
+    return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+  }
+
+  @ExceptionHandler(NoSuchElementException.class)
+  @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
+  public ResponseEntity<Map<String, String>> handleNoSuchElementException(NoSuchElementException e) {
+    log.error(e);
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
   }
 }

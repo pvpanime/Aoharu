@@ -1,5 +1,6 @@
 package dev.nemi.aoharu.service.board;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -16,10 +17,7 @@ import java.time.LocalDateTime;
 public class BoardCommentViewDTO {
 
   @NotNull
-  private Long id;
-
-  @NotNull
-  private Long boardId;
+  private Long cid;
 
   @NotBlank
   private String content;
@@ -28,9 +26,11 @@ public class BoardCommentViewDTO {
   private String userid;
 
   @NotNull
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   private LocalDateTime added;
 
   @NotNull
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   private LocalDateTime updated;
 
 }
