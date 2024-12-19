@@ -8,19 +8,21 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-@RestControllerAdvice
 @Log4j2
+@RestControllerAdvice(annotations = RestController.class)
 public class Plana {
 
   @ExceptionHandler(BindException.class)
   @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
   public ResponseEntity<Map<String, String>> handleBindException(BindException e) {
+    log.error("It's bind exception?!");
     log.error(e);
     Map<String, String> errorMap = new HashMap<>();
 
@@ -45,3 +47,4 @@ public class Plana {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
   }
 }
+

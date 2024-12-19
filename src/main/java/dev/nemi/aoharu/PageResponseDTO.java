@@ -22,9 +22,6 @@ public class PageResponseDTO<T> {
   /** the last page */
   private int last;
 
-  private boolean prev;
-  private boolean next;
-
   private List<T> dtoList;
 
   @Builder(builderMethodName = "withAll")
@@ -60,7 +57,5 @@ public class PageResponseDTO<T> {
 
     }
 
-    this.prev = this.start > 1;
-    this.next = (long) this.end * this.size < total;
   }
 }

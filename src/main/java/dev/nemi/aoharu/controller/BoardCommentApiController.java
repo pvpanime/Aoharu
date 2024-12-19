@@ -1,7 +1,6 @@
 package dev.nemi.aoharu.controller;
 
 import dev.nemi.aoharu.BoardCommentPageRequestDTO;
-import dev.nemi.aoharu.PageRequestDTO;
 import dev.nemi.aoharu.PageResponseDTO;
 import dev.nemi.aoharu.service.board.BoardCommentEditDTO;
 import dev.nemi.aoharu.service.board.BoardCommentService;
@@ -17,14 +16,13 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/comment")
 @Log4j2
 @RequiredArgsConstructor
-public class BoardCommentRController {
+public class BoardCommentApiController {
 
   private final BoardCommentService commentService;
 
@@ -55,6 +53,13 @@ public class BoardCommentRController {
   @PutMapping(value = "/{cid}", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Map<String, String>> update(@PathVariable Long cid, @RequestBody BoardCommentEditDTO commentDTO) {
     commentService.modify(cid, commentDTO);
+    return ResponseEntity.ok(Map.of("success", "1"));
+  }
+
+  @Tag(name = "Delete comment")
+  @DeleteMapping(value = "/{cid}")
+  public ResponseEntity<Map<String, String>> delete(@PathVariable Long cid) {
+    commentService.delete(cid);
     return ResponseEntity.ok(Map.of("success", "1"));
   }
 }

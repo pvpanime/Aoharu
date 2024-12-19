@@ -9,4 +9,6 @@ public interface BoardCommentService {
   void modify(Long cid, BoardCommentEditDTO dto);
 
   PageResponseDTO<BoardCommentViewDTO> getCommentsOf(Long bid, PageRequestDTO requestDTO);
+
+  void delete(Long cid);
 }

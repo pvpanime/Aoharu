@@ -32,7 +32,6 @@ public class BoardController {
     Model model
   ) {
     if (pageBR.hasErrors()) { return "redirect:/board"; }
-//    PageResponseDTO<BoardViewDTO> dto = boardService.search(pageRequestDTO);
     PageResponseDTO<BoardListViewDTO> dto = boardService.getList(pageRequestDTO);
     model.addAttribute("dto", dto);
     return "board/index";

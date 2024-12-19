@@ -57,4 +57,9 @@ public class BoardCommentServiceImpl implements BoardCommentService {
     return response;
   }
 
+  @Override
+  public void delete(Long cid) {
+    boardCommentRepo.deleteById(cid);
+  }
+
 }
