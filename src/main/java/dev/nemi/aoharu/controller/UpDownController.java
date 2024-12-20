@@ -45,11 +45,11 @@ public class UpDownController {
       String mime = Files.probeContentType(savePath);
 
       // Check if the file is executable
-      if (Files.isExecutable(savePath)) {
-        log.warn("Executable file detected and rejected: {}", originalFilename);
-        Files.deleteIfExists(savePath);
-        return; // Skip processing this file
-      }
+//      if (Files.isExecutable(savePath)) {
+//        log.warn("Executable file detected and rejected: {}", originalFilename);
+//        Files.deleteIfExists(savePath);
+//        return; // Skip processing this file
+//      }
 
       if (mime.startsWith("image")) {
         File thumb = new File(thumbnailPath, saveStr);
