@@ -36,3 +36,11 @@ async function fetchComments(bid, parent, paginator, page = commentPage, size = 
     console.error("There's an error during fetching board comments.")
   }
 }
+
+function submitToDelete(action) {
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = action;
+  document.body.appendChild(form);
+  form.submit();
+}

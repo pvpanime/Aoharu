@@ -95,6 +95,7 @@
 
 
     const bid = /*[[${board.getBid()}]]*/ '';
+    const deleteAction = /*[[${deleteAction}]]*/ '';
     const commentsHere = document.getElementById('comments-here');
     const commentTA = document.getElementById("commentTA")
     const commentEditTA = document.getElementById("commentEditTA")
@@ -112,18 +113,11 @@
       }
     }
 
-    function doDelete() {
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = /*[[${deleteAction}]]*/ '';
-      document.body.appendChild(form);
-      form.submit();
-    }
 
 
     document.getElementById('DeleteButton').addEventListener('click', e => {
       if (window.confirm('Are you sure you want to delete this board?')) {
-        doDelete();
+        submitToDelete(deleteAction);
       }
     });
 

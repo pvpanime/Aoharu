@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@Log4j2
 @RestController
 @RequestMapping("/api/comment")
-@Log4j2
 @RequiredArgsConstructor
 public class BoardCommentApiController {
 
