@@ -1,6 +1,6 @@
 package dev.nemi.aoharu.repository;
 
-import dev.nemi.pho.service.FoodViewDTO;
+import dev.nemi.aoharu.service.food.FoodViewDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

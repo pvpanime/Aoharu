@@ -1,7 +1,7 @@
 package dev.nemi.aoharu.repository;
 
-import dev.nemi.pho.domain.FoodReview;
-import dev.nemi.pho.service.FoodRatingGroupProjection;
+import dev.nemi.aoharu.prime.FoodReview;
+import dev.nemi.aoharu.service.food.FoodRatingGroupProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

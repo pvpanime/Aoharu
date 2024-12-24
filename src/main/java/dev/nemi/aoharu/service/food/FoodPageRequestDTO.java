@@ -1,6 +1,6 @@
 package dev.nemi.aoharu.service.food;
 
-import dev.nemi.pho.PageRequestDTO;
+import dev.nemi.aoharu.PageRequestDTO;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;

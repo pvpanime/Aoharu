@@ -6,7 +6,6 @@
  * @param {((i: number) => any) | undefined} handler
  * @param {((i: number) => string) | undefined} useHref
  */
-
 function Paginator(current, start, end, last,
                    { handler, useHref } = { handler: undefined, useHref: undefined }) {
   const ul = document.createElement("ul");

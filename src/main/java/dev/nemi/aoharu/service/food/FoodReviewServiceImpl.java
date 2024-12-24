@@ -1,10 +1,11 @@
 package dev.nemi.aoharu.service.food;
 
-import dev.nemi.pho.PageRequestDTO;
-import dev.nemi.pho.domain.Food;
-import dev.nemi.pho.domain.FoodReview;
-import dev.nemi.pho.repository.FoodRepo;
-import dev.nemi.pho.repository.FoodReviewRepo;
+import dev.nemi.aoharu.PageRequestDTO;
+import dev.nemi.aoharu.PageResponseDTO;
+import dev.nemi.aoharu.prime.Food;
+import dev.nemi.aoharu.prime.FoodReview;
+import dev.nemi.aoharu.repository.FoodRepo;
+import dev.nemi.aoharu.repository.FoodReviewRepo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
