@@ -1,6 +1,6 @@
 package dev.nemi.aoharu.controller;
 
-import dev.nemi.aoharu.BucketPageRequestDTO;
+import dev.nemi.aoharu.service.bucket.BucketPageRequestDTO;
 import dev.nemi.aoharu.PageResponseDTO;
 import dev.nemi.aoharu.service.bucket.BucketCreateDTO;
 import dev.nemi.aoharu.service.bucket.BucketEditDTO;

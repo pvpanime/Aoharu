@@ -3,34 +3,36 @@
  * @param {number} start
  * @param {number} end
  * @param {number} last
- * @param {(i: number) => any} handler
+ * @param {((i: number) => any) | undefined} handler
+ * @param {((i: number) => string) | undefined} useHref
  */
 
-function Paginator(current, start, end, last, handler) {
+function Paginator(current, start, end, last,
+                   { handler, useHref } = { handler: undefined, useHref: undefined }) {
   const ul = document.createElement("ul");
   ul.classList.add("pagination", "justify-content-center");
 
   if (start > 1) {
-    ul.append(_li(1))
+    ul.append(_li(1, useHref?.(1)))
     ul.append(_ctdot())
   }
 
   for (let i = start; i <= end; i += 1) {
-    const li = _li(i)
+    const li = _li(i, useHref?.(i))
     if (i == current) li.classList.add("active");
     ul.append(li)
   }
 
   if (end < last) {
     ul.append(_ctdot())
-    ul.append(_li(last))
+    ul.append(_li(last, useHref?.(last)))
   }
 
   ul.addEventListener("click", e => {
-    const found = findLi(e.target)
+    const found = _findLi(e.target)
     if (found) {
       const page = found.dataset.page
-      if (page) handler(page)
+      if (page && handler) handler(page)
     }
   })
   return ul
@@ -47,7 +49,7 @@ function _ctdot() {
 
 /**
  * @param {number} pg
- * @param {string | undefined} href
+ * @param {string?} href
  * @private
  */
 function _li(pg, href) {
@@ -71,7 +73,7 @@ function _li(pg, href) {
 /**
  * @param {HTMLElement} target
  */
-function findLi(target) {
+function _findLi(target) {
   while (target != null) {
     if (target.tagName.toLowerCase() === "li" && target.classList.contains('page-item')) return target;
     target = target.parentElement

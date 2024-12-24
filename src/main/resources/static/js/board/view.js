@@ -27,7 +27,11 @@ async function fetchComments(bid, parent, paginator, page = commentPage, size = 
     paginator.innerHTML = '';
     if (data.total > 0) {
       paginator.append(
-        Paginator(page, data.start, data.end, data.last, i => fetchComments(bid, parent, paginator, i, size))
+        Paginator(page, data.start, data.end, data.last, {
+          handler(i) {
+            fetchComments(bid, parent, paginator, i, size)
+          }
+        })
       )
     }
     commentPage = page

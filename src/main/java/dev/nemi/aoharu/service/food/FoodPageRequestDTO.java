@@ -1,5 +1,6 @@
-package dev.nemi.aoharu;
+package dev.nemi.aoharu.service.food;
 
+import dev.nemi.pho.PageRequestDTO;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
@@ -22,11 +23,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BucketPageRequestDTO implements PageRequestDTO {
+public class FoodPageRequestDTO implements PageRequestDTO {
 
-  private static final int DEFAULT_PAGE_SIZE = 20;
+  private static final int DEFAULT_PAGE_SIZE = 16;
   public static final String DEFAULT_SIZE_STR = DEFAULT_PAGE_SIZE + "";
-  public static final BucketPageRequestDTO DEFAULT = BucketPageRequestDTO.builder().build();
+  public static final FoodPageRequestDTO DEFAULT = FoodPageRequestDTO.builder().build();
 
   @Min(1)
   @Positive
@@ -39,45 +40,15 @@ public class BucketPageRequestDTO implements PageRequestDTO {
   @Builder.Default
   private int size = DEFAULT_PAGE_SIZE;
 
-  private String[] searchFor;
+  private String searchName;
 
-  private String search;
-
-  private int[] statusOf;
-
-  private LocalDateTime dueStart;
-  private LocalDateTime dueEnd;
-
-  public boolean isSearchingFor(String s) {
-    if (searchFor == null || s == null) {
-      return false;
-    }
-    for (String searchItem : searchFor) {
-      if (s.equals(searchItem)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public boolean isLookingForStatusOf(int status) {
-    if (statusOf == null) {
-      return false;
-    }
-    for (int s : statusOf) {
-      if (s == status) {
-        return true;
-      }
-    }
-    return false;
-  }
+  private Long minPrice;
+  private Long maxPrice;
+  private Integer minRate;
+  private LocalDateTime until;
 
   public Pageable getPageable(String... props) {
-    return PageRequest.of(this.page - 1, this.size, Sort.by(props).descending());
-  }
-
-  public Pageable getDefaultPageable() {
-    return PageRequest.of(this.page - 1, this.size, Sort.by("dueTo").ascending());
+    return PageRequest.of(this.page - 1, this.size, Sort.by(props));
   }
 
   public List<Pair<String, String>> useParams(int page) {
@@ -86,28 +57,21 @@ public class BucketPageRequestDTO implements PageRequestDTO {
 
     if (size != DEFAULT_PAGE_SIZE) params.add(Pair.of("size", Integer.toString(size)));
 
-    if (searchFor != null && search != null && !search.isEmpty()) {
-      for (String s : searchFor) {
-        if (s != null && !s.isEmpty()) params.add(Pair.of("searchFor", s));
-      }
-      params.add(Pair.of("search", search));
+    if (searchName != null && !searchName.isEmpty()) {
+      params.add(Pair.of("searchName", searchName));
     }
 
-    if (statusOf != null) {
-      for (int s : statusOf) {
-        params.add(Pair.of("statusOf", Integer.toString(s)));
-      }
-    }
-
-    if (dueStart != null) params.add(Pair.of("dueStart", dueStart.toString()));
-    if (dueEnd != null) params.add(Pair.of("dueEnd", dueEnd.toString()));
-
+    if (minPrice != null) params.add(Pair.of("minPrice", minPrice.toString()));
+    if (maxPrice != null) params.add(Pair.of("maxPrice", maxPrice.toString()));
+    if (minRate != null) params.add(Pair.of("minRate", Integer.toString(minRate)));
+    if (until != null) params.add(Pair.of("until", until.toString()));
     return params;
   }
 
   public List<Pair<String, String>> useParams() {
     return useParams(page);
   }
+
 
   public String usePage(int page) {
     StringBuilder sb = new StringBuilder();

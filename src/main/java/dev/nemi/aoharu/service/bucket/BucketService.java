@@ -1,6 +1,5 @@
 package dev.nemi.aoharu.service.bucket;
 
-import dev.nemi.aoharu.BucketPageRequestDTO;
 import dev.nemi.aoharu.PageResponseDTO;
 
 public interface BucketService {

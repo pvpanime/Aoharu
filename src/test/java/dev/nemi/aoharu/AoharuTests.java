@@ -1,7 +1,7 @@
 package dev.nemi.aoharu;
 
 import dev.nemi.aoharu.service.board.BoardService;
-import dev.nemi.aoharu.service.board.BoardViewDTO;
+import dev.nemi.aoharu.service.bucket.BucketPageRequestDTO;
 import dev.nemi.aoharu.service.bucket.BucketService;
 import dev.nemi.aoharu.service.bucket.BucketViewDTO;
 import lombok.extern.log4j.Log4j2;

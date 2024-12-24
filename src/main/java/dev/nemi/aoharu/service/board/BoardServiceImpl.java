@@ -1,7 +1,6 @@
 package dev.nemi.aoharu.service.board;
 
 
-import dev.nemi.aoharu.BoardPageRequestDTO;
 import dev.nemi.aoharu.PageResponseDTO;
 import dev.nemi.aoharu.prime.Board;
 import dev.nemi.aoharu.repository.BoardRepo;

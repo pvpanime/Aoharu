@@ -32,8 +32,8 @@
       </div>
     </div>
   </form>
-  <!--/*@thymesVar id="invalid" type="java.util.List<org.springframework.validation.ObjectError>"*/-->
   </main>
+  <!--/*@thymesVar id="invalid" type="java.util.List<org.springframework.validation.ObjectError>"*/-->
   <div th:if="${invalid != null}">
     <div th:each="error : ${invalid}" class="alert alert-danger alert-dismissible fade show" role="alert">
       <span th:text="${error.getField()}" /> <span th:text="${error.getDefaultMessage()}" />

@@ -1,6 +1,5 @@
 package dev.nemi.aoharu.service.board;
 
-import dev.nemi.aoharu.BoardPageRequestDTO;
 import dev.nemi.aoharu.PageResponseDTO;
 
 public interface BoardService {
