@@ -45,8 +45,8 @@ public class PageResponseDTO<T> {
       int expandRight = (PAGINATION_WINDOW_SIZE / 2);
       int expandLeft = PAGINATION_WINDOW_SIZE - expandRight - 1;
 
-      int pressureRight = page + expandRight > last ? (int) (page + expandRight - last) : 0;
-      int pressureLeft = page - expandLeft < 1 ? (int) (expandLeft - page + 1) : 0;
+      int pressureRight = page + expandRight > last ? (page + expandRight - last) : 0;
+      int pressureLeft = page - expandLeft < 1 ? (expandLeft - page + 1) : 0;
 
       this.end = Math.min(page + expandRight + pressureLeft, last);
 

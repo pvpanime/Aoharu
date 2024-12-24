@@ -2,15 +2,19 @@ package dev.nemi.aoharu.prime;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
+import org.springframework.data.jpa.repository.EntityGraph;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(callSuper = true)
+@ToString(exclude = "images")
 public class Food extends BaseEntity {
 
   @Id
@@ -38,6 +42,20 @@ public class Food extends BaseEntity {
   @Column(length = 32, nullable = false)
   private String registrar;
 
+  @OneToMany(mappedBy = "food", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, orphanRemoval = true)
+  @Builder.Default
+  @BatchSize(size = 20)
+  private Set<FoodImage> images = new HashSet<>();
+
+  public void addImage(String id, String filename) {
+    FoodImage image = FoodImage.builder().id(id).filename(filename).food(this).ordinal(images.size()).build();
+    images.add(image);
+  }
+
+  public void clearImages() {
+    images.forEach(im -> im.changeFood(null));
+    images.clear();
+  }
 
   public void edit(String name, String description, Long price, Long stock, LocalDateTime opened, LocalDateTime close) {
     this.name = name;

@@ -9,6 +9,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class FoodServiceImpl implements FoodService {
@@ -36,14 +38,67 @@ public class FoodServiceImpl implements FoodService {
   }
 
   @Override
+  public PageResponseDTO<FoodViewImageSupportDTO> getFoodsWithImage(FoodPageRequestDTO requestDTO) {
+    Page<FoodViewImageSupportDTO> foods = foodRepo.getFoodsImageSupport(
+      requestDTO.getPageable("id"),
+      requestDTO.getSearchName(),
+      requestDTO.getMinPrice(),
+      requestDTO.getMaxPrice(),
+      requestDTO.getMinRate(),
+      requestDTO.getUntil()
+    );
+
+    return PageResponseDTO.<FoodViewImageSupportDTO>withAll()
+      .pageRequestDTO(requestDTO)
+      .dtoList(foods.getContent())
+      .total(foods.getTotalElements())
+      .build();
+  }
+
+  @Override
   public FoodViewDTO getOne(long id) {
     Food food = foodRepo.findById(id).orElseThrow();
+
     FoodRatingGroupProjection r = foodReviewRepo.getRating(id);
+    Double avgRate = r != null ? r.getAvgRate() : 0.0;
+    Long reviewCount = r != null ? r.getReviewCount() : 0L;
+
     FoodViewDTO foodViewDTO = modelMapper.map(food, FoodViewDTO.class);
-    double avgRate = r != null ? r.getAvgRate() : 0.0;
-    long reviewCount = r != null ? r.getReviewCount() : 0L;
+
     foodViewDTO.setAvgRate(avgRate);
     foodViewDTO.setReviewCount(reviewCount);
+    return foodViewDTO;
+  }
+
+  @Override
+  public FoodViewImageSupportDTO getOneWithImage(long id) {
+    Food food = foodRepo.getOneWithImages(id).orElseThrow();
+
+    FoodRatingGroupProjection r = foodReviewRepo.getRating(id);
+    Double avgRate = r != null ? r.getAvgRate() : 0.0;
+    Long reviewCount = r != null ? r.getReviewCount() : 0L;
+
+    List<FoodImageDTO> imageList = food.getImages().stream().sorted().map(
+      im -> FoodImageDTO.builder()
+        .id(im.getId()).name(im.getFilename()).ordinal(im.getOrdinal()).build()
+    ).toList();
+
+    FoodViewImageSupportDTO foodViewDTO = FoodViewImageSupportDTO.builder()
+      .id(food.getId())
+      .name(food.getName())
+      .description(food.getDescription())
+      .price(food.getPrice())
+      .stock(food.getStock())
+      .opened(food.getOpened())
+      .close(food.getClose())
+      .registrar(food.getRegistrar())
+      .added(food.getAdded())
+      .updated(food.getUpdated())
+      .reviewCount(reviewCount)
+      .avgRate(avgRate)
+      .images(imageList)
+      .build();
+
     return foodViewDTO;
   }
 

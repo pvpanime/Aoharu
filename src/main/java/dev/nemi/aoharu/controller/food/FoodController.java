@@ -31,7 +31,8 @@ public class FoodController {
     ) {
     if (requestBR.hasErrors()) return "redirect:/food";
     log.info(requestDTO);
-    PageResponseDTO<FoodViewDTO> responseDTO = foodService.getFoods(requestDTO);
+//    PageResponseDTO<FoodViewDTO> responseDTO = foodService.getFoods(requestDTO);
+    PageResponseDTO<FoodViewImageSupportDTO> responseDTO = foodService.getFoodsWithImage(requestDTO);
     model.addAttribute("requestDTO", requestDTO);
     model.addAttribute("responseDTO", responseDTO);
     return "food/index";

@@ -14,4 +14,6 @@ public interface FoodReviewRepo extends JpaRepository<FoodReview, Long>, FoodSea
 
   @Query("select count(r.id) as reviewCount, avg(r.rating) as avgRate from FoodReview r where r.food.id = :foodId group by r.food")
   FoodRatingGroupProjection getRating(long foodId);
+
+  void deleteByFood_Id(Long foodId);
 }
