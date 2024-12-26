@@ -1,5 +1,6 @@
 package dev.nemi.aoharu;
 
+import dev.nemi.aoharu.dto.PageResponseDTO;
 import dev.nemi.aoharu.service.board.BoardService;
 import dev.nemi.aoharu.service.bucket.BucketPageRequestDTO;
 import dev.nemi.aoharu.service.bucket.BucketService;

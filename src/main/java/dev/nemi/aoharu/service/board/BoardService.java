@@ -1,6 +1,6 @@
 package dev.nemi.aoharu.service.board;
 
-import dev.nemi.aoharu.PageResponseDTO;
+import dev.nemi.aoharu.dto.PageResponseDTO;
 
 public interface BoardService {
   Long write(BoardWriteDTO dto);

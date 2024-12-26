@@ -1,4 +1,4 @@
-package dev.nemi.aoharu.service.food;
+package dev.nemi.aoharu.dto;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

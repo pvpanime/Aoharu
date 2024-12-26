@@ -1,4 +1,4 @@
-package dev.nemi.aoharu.service.food;
+package dev.nemi.aoharu.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -20,4 +21,7 @@ public class FoodRegisterDTO {
   private LocalDateTime opened;
   private LocalDateTime close;
   private String registrar;
+
+  private List<String> imageFileNames;
+
 }

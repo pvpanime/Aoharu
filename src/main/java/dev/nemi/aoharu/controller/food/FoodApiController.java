@@ -1,6 +1,6 @@
 package dev.nemi.aoharu.controller.food;
 
-import dev.nemi.aoharu.PageResponseDTO;
+import dev.nemi.aoharu.dto.*;
 import dev.nemi.aoharu.service.food.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

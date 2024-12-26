@@ -1,11 +1,11 @@
-package dev.nemi.aoharu.service.food;
+package dev.nemi.aoharu.dto;
 
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class FoodViewDTO {
+public class FoodViewCompactDTO {
   private Long id;
   private String name;
   private String description;

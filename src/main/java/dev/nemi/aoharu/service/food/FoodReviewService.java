@@ -1,8 +1,7 @@
 package dev.nemi.aoharu.service.food;
 
 
-import dev.nemi.aoharu.PageRequestDTO;
-import dev.nemi.aoharu.PageResponseDTO;
+import dev.nemi.aoharu.dto.*;
 
 public interface FoodReviewService {
   PageResponseDTO<FoodReviewDTO> getReviews(PageRequestDTO requestDTO, Long foodId);

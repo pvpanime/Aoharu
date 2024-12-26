@@ -1,4 +1,4 @@
-package dev.nemi.aoharu.repository;
+package dev.nemi.aoharu.repository.board;
 
 import dev.nemi.aoharu.prime.Board;
 import dev.nemi.aoharu.service.board.BoardListViewDTO;

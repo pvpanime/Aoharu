@@ -1,11 +1,11 @@
 package dev.nemi.aoharu.service.board;
 
-import dev.nemi.aoharu.PageRequestDTO;
-import dev.nemi.aoharu.PageResponseDTO;
+import dev.nemi.aoharu.dto.PageRequestDTO;
+import dev.nemi.aoharu.dto.PageResponseDTO;
 import dev.nemi.aoharu.prime.Board;
 import dev.nemi.aoharu.prime.BoardComment;
-import dev.nemi.aoharu.repository.BoardCommentRepo;
-import dev.nemi.aoharu.repository.BoardRepo;
+import dev.nemi.aoharu.repository.board.BoardCommentRepo;
+import dev.nemi.aoharu.repository.board.BoardRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;

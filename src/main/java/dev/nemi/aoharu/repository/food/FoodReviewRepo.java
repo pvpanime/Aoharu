@@ -1,7 +1,7 @@
-package dev.nemi.aoharu.repository;
+package dev.nemi.aoharu.repository.food;
 
 import dev.nemi.aoharu.prime.FoodReview;
-import dev.nemi.aoharu.service.food.FoodRatingGroupProjection;
+import dev.nemi.aoharu.dto.FoodReviewValueDTOI;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +13,7 @@ public interface FoodReviewRepo extends JpaRepository<FoodReview, Long>, FoodSea
   Page<FoodReview> getReviewsOf(Pageable pageable, long foodId);
 
   @Query("select count(r.id) as reviewCount, avg(r.rating) as avgRate from FoodReview r where r.food.id = :foodId group by r.food")
-  FoodRatingGroupProjection getRating(long foodId);
+  FoodReviewValueDTOI getReviewValuesOf(long foodId);
 
-  void deleteByFood_Id(Long foodId);
+  long deleteByFood_Id(Long foodId);
 }

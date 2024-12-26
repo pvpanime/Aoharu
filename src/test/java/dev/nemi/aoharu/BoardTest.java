@@ -1,9 +1,11 @@
 package dev.nemi.aoharu;
 
+import dev.nemi.aoharu.dto.BasePageRequestDTO;
+import dev.nemi.aoharu.dto.PageResponseDTO;
 import dev.nemi.aoharu.prime.Board;
 import dev.nemi.aoharu.prime.BoardComment;
-import dev.nemi.aoharu.repository.BoardCommentRepo;
-import dev.nemi.aoharu.repository.BoardRepo;
+import dev.nemi.aoharu.repository.board.BoardCommentRepo;
+import dev.nemi.aoharu.repository.board.BoardRepo;
 import dev.nemi.aoharu.service.board.*;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package dev.nemi.aoharu.repository;
+package dev.nemi.aoharu.repository.board;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;

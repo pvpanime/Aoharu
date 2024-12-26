@@ -1,6 +1,6 @@
 package dev.nemi.aoharu.service.bucket;
 
-import dev.nemi.aoharu.PageResponseDTO;
+import dev.nemi.aoharu.dto.PageResponseDTO;
 
 public interface BucketService {
   Long create(BucketCreateDTO dto);

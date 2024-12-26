@@ -1,7 +1,7 @@
 package dev.nemi.aoharu.controller.board;
 
 import dev.nemi.aoharu.service.board.BoardPageRequestDTO;
-import dev.nemi.aoharu.PageResponseDTO;
+import dev.nemi.aoharu.dto.PageResponseDTO;
 import dev.nemi.aoharu.service.board.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

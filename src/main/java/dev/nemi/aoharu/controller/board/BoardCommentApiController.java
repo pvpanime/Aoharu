@@ -1,7 +1,7 @@
 package dev.nemi.aoharu.controller.board;
 
 import dev.nemi.aoharu.service.board.BoardCommentPageRequestDTO;
-import dev.nemi.aoharu.PageResponseDTO;
+import dev.nemi.aoharu.dto.PageResponseDTO;
 import dev.nemi.aoharu.service.board.BoardCommentEditDTO;
 import dev.nemi.aoharu.service.board.BoardCommentService;
 import dev.nemi.aoharu.service.board.BoardCommentViewDTO;

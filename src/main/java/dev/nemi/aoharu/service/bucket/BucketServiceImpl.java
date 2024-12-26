@@ -1,6 +1,6 @@
 package dev.nemi.aoharu.service.bucket;
 
-import dev.nemi.aoharu.PageResponseDTO;
+import dev.nemi.aoharu.dto.PageResponseDTO;
 import dev.nemi.aoharu.prime.Bucket;
 import dev.nemi.aoharu.repository.BucketRepo;
 import jakarta.transaction.Transactional;

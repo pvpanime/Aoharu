@@ -1,4 +1,4 @@
-package dev.nemi.aoharu.repository;
+package dev.nemi.aoharu.repository.food;
 
 import dev.nemi.aoharu.prime.Food;
 import org.springframework.data.jpa.repository.EntityGraph;

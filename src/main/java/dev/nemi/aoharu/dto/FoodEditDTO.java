@@ -1,4 +1,4 @@
-package dev.nemi.aoharu.service.food;
+package dev.nemi.aoharu.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FoodViewImageSupportDTO {
+public class FoodEditDTO {
   private Long id;
   private String name;
   private String description;
@@ -20,10 +20,5 @@ public class FoodViewImageSupportDTO {
   private Long stock;
   private LocalDateTime opened;
   private LocalDateTime close;
-  private String registrar;
-  private LocalDateTime added;
-  private LocalDateTime updated;
-  private Long reviewCount;
-  private Double avgRate;
-  private List<FoodImageDTO> images;
+  private List<String> imageFiles;
 }

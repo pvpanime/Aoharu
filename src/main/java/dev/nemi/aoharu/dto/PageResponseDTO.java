@@ -1,4 +1,4 @@
-package dev.nemi.aoharu;
+package dev.nemi.aoharu.dto;
 
 import lombok.Builder;
 import lombok.Getter;

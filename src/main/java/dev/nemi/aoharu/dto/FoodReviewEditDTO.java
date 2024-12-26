@@ -1,4 +1,4 @@
-package dev.nemi.aoharu.service.food;
+package dev.nemi.aoharu.dto;
 
 import lombok.Data;
 

@@ -73,21 +73,14 @@
     </div>
     <div class="card-body">
       <h3 class="card-title" th:text="${food.getPrice() + '원'}"></h3>
-      <h4 class="card-subtitle mb-2 text-body-secondary">
+      <h4 th:if="${food.getAvgRate() != null}" class="card-subtitle mb-2 text-body-secondary">
         <i class="bi bi-star-fill" style="color: #ffc614"></i>
         <span style="color: #ffc614" th:text="${#numbers.formatDecimal(food.getAvgRate(), 1, 1)}"></span>
       </h4>
-      <h5 class="card-subtitle mb-2 text-body-secondary" th:text="${'리뷰 ' + food.getReviewCount() + '개'}"></h5>
+      <h5 th:if="${food.getReviewCount() != null}" class="card-subtitle mb-2 text-body-secondary" th:text="${'리뷰 ' + food.getReviewCount() + '개'}"></h5>
     </div>
   </div>
-  <div class="card mb-2">
-    <div class="card-header">
-      Description
-    </div>
-    <div class="card-body">
-      <p class="card-text" th:text="${food.getDescription()}"></p>
-    </div>
-  </div>
+
   <div class="card mb-2">
     <div class="card-header">
       Details
@@ -118,10 +111,11 @@
         <span class="fw-light text-body-secondary" th:text="${food.getUpdated()}"></span>
       </div>
     </div>
-  </div>
-  <div class="card mb-2">
-    <div class="card-header">Manage</div>
     <div class="card-body">
+      <h4 class="card-title">Description</h4>
+      <div class="card-text" th:text="${food.getDescription()}"></div>
+    </div>
+    <div class="card-footer">
       <nav class="row justify-content-between">
         <div class="col-auto">
           <a th:href="@{'/food/edit/' + ${food.getId()} + ${requestDTO.useQuery()}}" class="btn btn-primary">Edit</a>

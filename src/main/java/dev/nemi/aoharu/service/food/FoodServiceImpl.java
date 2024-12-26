@@ -1,17 +1,17 @@
 package dev.nemi.aoharu.service.food;
 
-import dev.nemi.aoharu.PageResponseDTO;
+import dev.nemi.aoharu.dto.*;
 import dev.nemi.aoharu.prime.Food;
-import dev.nemi.aoharu.repository.FoodRepo;
-import dev.nemi.aoharu.repository.FoodReviewRepo;
+import dev.nemi.aoharu.repository.food.FoodRepo;
+import dev.nemi.aoharu.repository.food.FoodReviewRepo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
+@Log4j2
 @RequiredArgsConstructor
 public class FoodServiceImpl implements FoodService {
 
@@ -21,7 +21,7 @@ public class FoodServiceImpl implements FoodService {
 
   @Override
   public PageResponseDTO<FoodViewDTO> getFoods(FoodPageRequestDTO requestDTO) {
-    Page<FoodViewDTO> foods = foodRepo.getFoods(
+    Page<FoodViewDTO> foods = foodRepo.getFoodsImageSupport(
       requestDTO.getPageable("id"),
       requestDTO.getSearchName(),
       requestDTO.getMinPrice(),
@@ -38,74 +38,20 @@ public class FoodServiceImpl implements FoodService {
   }
 
   @Override
-  public PageResponseDTO<FoodViewImageSupportDTO> getFoodsWithImage(FoodPageRequestDTO requestDTO) {
-    Page<FoodViewImageSupportDTO> foods = foodRepo.getFoodsImageSupport(
-      requestDTO.getPageable("id"),
-      requestDTO.getSearchName(),
-      requestDTO.getMinPrice(),
-      requestDTO.getMaxPrice(),
-      requestDTO.getMinRate(),
-      requestDTO.getUntil()
-    );
-
-    return PageResponseDTO.<FoodViewImageSupportDTO>withAll()
-      .pageRequestDTO(requestDTO)
-      .dtoList(foods.getContent())
-      .total(foods.getTotalElements())
-      .build();
-  }
-
-  @Override
   public FoodViewDTO getOne(long id) {
-    Food food = foodRepo.findById(id).orElseThrow();
-
-    FoodRatingGroupProjection r = foodReviewRepo.getRating(id);
-    Double avgRate = r != null ? r.getAvgRate() : 0.0;
-    Long reviewCount = r != null ? r.getReviewCount() : 0L;
-
-    FoodViewDTO foodViewDTO = modelMapper.map(food, FoodViewDTO.class);
-
-    foodViewDTO.setAvgRate(avgRate);
-    foodViewDTO.setReviewCount(reviewCount);
-    return foodViewDTO;
-  }
-
-  @Override
-  public FoodViewImageSupportDTO getOneWithImage(long id) {
     Food food = foodRepo.getOneWithImages(id).orElseThrow();
 
-    FoodRatingGroupProjection r = foodReviewRepo.getRating(id);
-    Double avgRate = r != null ? r.getAvgRate() : 0.0;
+    FoodReviewValueDTOI r = foodReviewRepo.getReviewValuesOf(id);
     Long reviewCount = r != null ? r.getReviewCount() : 0L;
+    Double avgRate = r != null ? r.getAvgRate() : 0.0;
 
-    List<FoodImageDTO> imageList = food.getImages().stream().sorted().map(
-      im -> FoodImageDTO.builder()
-        .id(im.getId()).name(im.getFilename()).ordinal(im.getOrdinal()).build()
-    ).toList();
-
-    FoodViewImageSupportDTO foodViewDTO = FoodViewImageSupportDTO.builder()
-      .id(food.getId())
-      .name(food.getName())
-      .description(food.getDescription())
-      .price(food.getPrice())
-      .stock(food.getStock())
-      .opened(food.getOpened())
-      .close(food.getClose())
-      .registrar(food.getRegistrar())
-      .added(food.getAdded())
-      .updated(food.getUpdated())
-      .reviewCount(reviewCount)
-      .avgRate(avgRate)
-      .images(imageList)
-      .build();
-
-    return foodViewDTO;
+    return FoodViewDTO.of(food, reviewCount, avgRate);
   }
 
   @Override
   public Long register(FoodRegisterDTO dto) {
     if (dto.getRegistrar() == null) dto.setRegistrar("hina");
-    Food food = modelMapper.map(dto, Food.class);
+    Food food = entityOf(dto);
     Food result = foodRepo.save(food);
     return result.getId();
   }
@@ -121,12 +67,26 @@ public class FoodServiceImpl implements FoodService {
       dto.getOpened(),
       dto.getClose()
     );
+
+    food.clearImages();
+    if (dto.getImageFiles() != null) {
+      for (String file : dto.getImageFiles()) {
+        String[] chunk = file.split("_");
+        food.addImage(chunk[0], chunk[1]);
+      }
+    }
+
     foodRepo.save(food);
   }
 
   @Override
   public void delete(long id) {
+
+    long commentCount = foodReviewRepo.deleteByFood_Id(id);
+    log.info("Deleted {} comment(s) for food {}", commentCount, id);
+
     foodRepo.deleteById(id);
+
   }
 
 }
