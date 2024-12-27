@@ -2,9 +2,9 @@ package dev.nemi.aoharu;
 
 
 import dev.nemi.aoharu.repository.food.FoodRepo;
-import dev.nemi.aoharu.dto.FoodRegisterDTO;
+import dev.nemi.aoharu.dto.food.FoodRegisterDTO;
 import dev.nemi.aoharu.service.food.FoodService;
-import dev.nemi.aoharu.dto.FoodViewDTO;
+import dev.nemi.aoharu.dto.food.FoodViewDTO;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

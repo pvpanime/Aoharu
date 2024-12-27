@@ -1,7 +1,7 @@
 package dev.nemi.aoharu.repository.food;
 
 import dev.nemi.aoharu.prime.FoodReview;
-import dev.nemi.aoharu.dto.FoodReviewValueDTOI;
+import dev.nemi.aoharu.dto.food.FoodReviewValueDTOI;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

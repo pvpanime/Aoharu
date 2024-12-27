@@ -1,5 +1,7 @@
 package dev.nemi.aoharu.service;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,19 +11,21 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UploadResultDTO {
 
-  private String uuid;
+  private String id;
 
-  private String filename;
+  private String name;
 
   private String mime;
 
+  @JsonProperty("link")
   public String getLink() {
     if (mime != null && mime.startsWith("image/")) {
-      return "/th/"+uuid+"_"+filename;
+      return "/th/"+ id +"_"+ name;
     } else {
-      return "/i/"+uuid+"_"+filename;
+      return "/i/"+ id +"_"+ name;
     }
   }
 }

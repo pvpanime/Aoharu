@@ -1,14 +1,24 @@
 package dev.nemi.aoharu.service.food;
 
 import dev.nemi.aoharu.dto.*;
+import dev.nemi.aoharu.dto.food.*;
 import dev.nemi.aoharu.prime.Food;
+import dev.nemi.aoharu.prime.FoodImage;
 import dev.nemi.aoharu.repository.food.FoodRepo;
 import dev.nemi.aoharu.repository.food.FoodReviewRepo;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 @Service
 @Log4j2
@@ -17,7 +27,12 @@ public class FoodServiceImpl implements FoodService {
 
   private final FoodRepo foodRepo;
   private final FoodReviewRepo foodReviewRepo;
-  private final ModelMapper modelMapper;
+
+  @Value("${dev.nemi.aoharu.upload.path}")
+  private String uploadPath;
+
+  @Value("${dev.nemi.aoharu.thumbnail.path}")
+  private String thumbnailPath;
 
   @Override
   public PageResponseDTO<FoodViewDTO> getFoods(FoodPageRequestDTO requestDTO) {
@@ -80,7 +95,28 @@ public class FoodServiceImpl implements FoodService {
   }
 
   @Override
+  @Transactional
   public void delete(long id) {
+
+    Food food = foodRepo.getOneWithImages(id).orElseThrow();
+    for (FoodImage foodImage : food.getImages()) {
+      try {
+        String fname = foodImage.getId() + "_" + foodImage.getFilename();
+        Resource iresource = new FileSystemResource(uploadPath + File.separator + fname);
+        File iFile = iresource.getFile();
+        String contentType = Files.probeContentType(iFile.toPath());
+        iFile.delete();
+
+        if (contentType.startsWith("image")) {
+          File thumb = new File(thumbnailPath, fname);
+          thumb.delete();
+        }
+      } catch (IOException ioe) {
+        log.error(ioe);
+        log.error("Failed to delete real file, skipping for this...");
+      }
+
+    }
 
     long commentCount = foodReviewRepo.deleteByFood_Id(id);
     log.info("Deleted {} comment(s) for food {}", commentCount, id);

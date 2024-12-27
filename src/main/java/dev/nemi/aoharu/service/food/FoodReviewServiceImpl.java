@@ -1,6 +1,9 @@
 package dev.nemi.aoharu.service.food;
 
 import dev.nemi.aoharu.dto.*;
+import dev.nemi.aoharu.dto.food.FoodReviewDTO;
+import dev.nemi.aoharu.dto.food.FoodReviewEditDTO;
+import dev.nemi.aoharu.dto.food.FoodReviewRegisterDTO;
 import dev.nemi.aoharu.prime.Food;
 import dev.nemi.aoharu.prime.FoodReview;
 import dev.nemi.aoharu.repository.food.FoodRepo;

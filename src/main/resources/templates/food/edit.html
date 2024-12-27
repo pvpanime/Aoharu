@@ -47,9 +47,9 @@
             <label class="input-group-text" for="imageInput">Images</label>
             <input type="file" class="form-control" id="imageInput" multiple accept="image/*">
           </div>
-          <div class="list-group mb-3">
-            <div class="list-group-item">Preview</div>
-            <div id="images-preview-holder"></div>
+          <div class="card mb-3">
+            <div class="card-header">Preview</div>
+            <div id="images-preview-holder" class="list-group list-group-flush"></div>
           </div>
           <div class="form-floating mb-3">
             <textarea class="form-control" placeholder="" id="descriptionTA" name="description"
@@ -57,6 +57,7 @@
             <label for="descriptionTA">Description</label>
           </div>
         </div>
+        <div id="InputHiddenHolder"></div>
         <div class="card-footer">
           <input type="submit" class="btn btn-primary" value="Save">
         </div>
@@ -65,35 +66,64 @@
   </main>
 
 </div>
-<th:block layout:fragment="scripts">
-  <script th:src="@{/js/food/fu.js}"></script>
+<th:block layout:fragment="script">
   <script th:inline="javascript">
 
-    function imagePreview(imageDTO) {
+    const previewHolder = document.getElementById('images-preview-holder');
+    const inputHiddenHolder = document.getElementById('InputHiddenHolder');
+
+    function addImageFileString(filename) {
+      const inputEl = document.createElement('input');
+      inputEl.setAttribute('type', 'hidden');
+      inputEl.setAttribute('name', 'imageFiles');
+      inputEl.setAttribute('value', filename);
+      previewHolder.appendChild(inputEl);
+      inputHiddenHolder.appendChild(inputEl);
+    }
+
+    function addImagePreview(imageDTO) {
       const el = document.createElement('div');
-      el.classList.add('list-group-item list-group-item-action');
+      el.classList.add('list-group-item', 'list-group-item-action');
       el.innerHTML = `
-        <img>
+        <div class="row">
+          <div class="col-auto">
+            <button type="button" class="btn-close" aria-label="Close"></button>
+          </div>
+          <div class="col-auto">
+            <img>
+          </div>
+        </div>
         `
-
       el.querySelector("img").src = `/th/${imageDTO.id}_${imageDTO.name}`
+      previewHolder.appendChild(el);
+    }
 
-      return el;
+    function addServerImages(...imageDTO) {
+      for (const dto of imageDTO) {
+        addImageFileString(`${dto.id}_${dto.name}`)
+        addImagePreview(dto);
+      }
     }
 
     const imageInput = document.getElementById('imageInput');
+    console.log(imageInput);
     imageInput.addEventListener('change', (event) => {
       event.preventDefault();
       event.stopPropagation();
-      console.log(imageInput.files);
+      const files = [...imageInput.files]
+      console.log({ files });
+      if (files.length > 0) {
+        uploadImages(...files).then(response => {
+          const { data } = response
+          addServerImages(...data)
+        })
+      }
     })
 
-    const _imageList = /*[[${food.images}]]*/[]
-    const imageList = _imageList ?? [];
+    const imageList = /*[[${food != null ? food.images : null }]]*/ [];
 
-    for (const image of imageList) {
-
-    }
+    addServerImages(...(imageList ?? []));
   </script>
+  <script th:src="@{/js/food/fu.js}"></script>
 </th:block>
 </html>

@@ -7,8 +7,8 @@ import com.querydsl.jpa.JPQLQuery;
 import dev.nemi.aoharu.prime.Food;
 import dev.nemi.aoharu.prime.QFood;
 import dev.nemi.aoharu.prime.QFoodReview;
-import dev.nemi.aoharu.dto.FoodViewCompactDTO;
-import dev.nemi.aoharu.dto.FoodViewDTO;
+import dev.nemi.aoharu.dto.food.FoodViewCompactDTO;
+import dev.nemi.aoharu.dto.food.FoodViewDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -116,7 +116,6 @@ public class FoodSearchImpl extends QuerydslRepositorySupport implements FoodSea
       Double avgRate = tuple.get(2, Double.class);
 
       return FoodViewDTO.of(food1, reviewCount, avgRate);
-//      return
     }).toList();
 
     long totalCount = bigQuery.fetchCount();

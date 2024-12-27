@@ -1,7 +1,7 @@
 package dev.nemi.aoharu.repository.food;
 
-import dev.nemi.aoharu.dto.FoodViewCompactDTO;
-import dev.nemi.aoharu.dto.FoodViewDTO;
+import dev.nemi.aoharu.dto.food.FoodViewCompactDTO;
+import dev.nemi.aoharu.dto.food.FoodViewDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

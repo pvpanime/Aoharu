@@ -1,6 +1,10 @@
 package dev.nemi.aoharu.controller.food;
 
 import dev.nemi.aoharu.dto.*;
+import dev.nemi.aoharu.dto.food.FoodReviewDTO;
+import dev.nemi.aoharu.dto.food.FoodReviewEditDTO;
+import dev.nemi.aoharu.dto.food.FoodReviewPageRequestDTO;
+import dev.nemi.aoharu.dto.food.FoodReviewRegisterDTO;
 import dev.nemi.aoharu.service.food.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

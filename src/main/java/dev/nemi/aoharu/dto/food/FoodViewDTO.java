@@ -1,5 +1,6 @@
-package dev.nemi.aoharu.dto;
+package dev.nemi.aoharu.dto.food;
 
+import dev.nemi.aoharu.dto.ImageDTO;
 import dev.nemi.aoharu.prime.Food;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,11 +27,13 @@ public class FoodViewDTO {
   private LocalDateTime updated;
   private Long reviewCount;
   private Double avgRate;
-  private List<FoodImageDTO> images;
+
+  @Builder.Default
+  private List<ImageDTO> images = List.of();
 
   public static FoodViewDTO of(Food food, Long reviewCount, Double avgRate) {
-    List<FoodImageDTO> imageList = food.getImages().stream().sorted().map(
-      im -> FoodImageDTO.builder()
+    List<ImageDTO> imageList = food.getImages().stream().sorted().map(
+      im -> ImageDTO.builder()
         .id(im.getId()).name(im.getFilename()).ordinal(im.getOrdinal()).build()
     ).toList();
 

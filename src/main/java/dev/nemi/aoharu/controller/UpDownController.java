@@ -2,9 +2,11 @@ package dev.nemi.aoharu.controller;
 
 import dev.nemi.aoharu.service.UploadFileDTO;
 import dev.nemi.aoharu.service.UploadResultDTO;
+import dev.nemi.aoharu.service.food.FoodService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +27,10 @@ import java.util.*;
 
 @Log4j2
 @RestController
+@RequiredArgsConstructor
 public class UpDownController {
+
+  private final FoodService foodService;
 
   @Value("${dev.nemi.aoharu.upload.path}")
   private String uploadPath;
@@ -50,8 +55,8 @@ public class UpDownController {
       }
       out.add(
         UploadResultDTO.builder()
-          .uuid(uuid)
-          .filename(originalFilename)
+          .id(uuid)
+          .name(originalFilename)
           .mime(mime)
           .build()
       );

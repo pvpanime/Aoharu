@@ -1,6 +1,10 @@
 package dev.nemi.aoharu.service.food;
 
 import dev.nemi.aoharu.dto.*;
+import dev.nemi.aoharu.dto.food.FoodEditDTO;
+import dev.nemi.aoharu.dto.food.FoodPageRequestDTO;
+import dev.nemi.aoharu.dto.food.FoodRegisterDTO;
+import dev.nemi.aoharu.dto.food.FoodViewDTO;
 import dev.nemi.aoharu.prime.Food;
 
 public interface FoodService {

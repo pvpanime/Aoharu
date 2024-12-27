@@ -9,8 +9,16 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FoodImageDTO {
+public class ImageDTO {
   private String id;
   private String name;
   private int ordinal;
+
+  public String getSrc() {
+    return String.format("/i/%s_%s", id, name);
+  }
+
+  public String getThumbnail() {
+    return String.format("/th/%s_%s", id, name);
+  }
 }
