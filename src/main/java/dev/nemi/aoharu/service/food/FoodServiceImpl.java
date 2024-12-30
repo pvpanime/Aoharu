@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 
@@ -111,6 +112,9 @@ public class FoodServiceImpl implements FoodService {
           File thumb = new File(thumbnailPath, fname);
           thumb.delete();
         }
+      } catch (FileNotFoundException nofe) {
+        log.warn(nofe);
+        log.warn("File not found");
       } catch (IOException ioe) {
         log.error(ioe);
         log.error("Failed to delete real file, skipping for this...");

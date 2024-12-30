@@ -20,24 +20,18 @@ public class IndexController {
     return "index";
   }
 
-  @GetMapping("/hello")
-  public ResponseEntity<String> hello() {
-    return ResponseEntity.ok().contentType(MediaType.TEXT_PLAIN).body("Hello!");
-  }
-
   @GetMapping("/arona")
-  public void arona(Model model) {
-
-  }
-
-  @GetMapping("/array")
-  public String useArray() {
-    return "array";
-  }
+  public void arona() { }
 
   @GetMapping("/list")
   public void list(Model model) {
     model.addAttribute("ls", List.of());
+  }
+
+  @GetMapping("/login")
+  public String login(String error, String logout) {
+
+    return "login";
   }
 
 }
