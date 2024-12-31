@@ -2,6 +2,7 @@ package dev.nemi.aoharu.service.board;
 
 
 import dev.nemi.aoharu.dto.PageResponseDTO;
+import dev.nemi.aoharu.dto.board.*;
 import dev.nemi.aoharu.prime.Board;
 import dev.nemi.aoharu.repository.board.BoardRepo;
 import jakarta.transaction.Transactional;
@@ -58,5 +59,14 @@ public class BoardServiceImpl implements BoardService {
   @Override
   public void delete(Long id) {
     boardRepo.deleteById(id);
+  }
+
+  @Override
+  public BoardViewDTO getOneWithOwnership(String userid, Long boardId) {
+    Optional<Board> board = boardRepo.findByBidAndUserid(boardId, userid);
+    if (!board.isPresent()) return null;
+
+    BoardViewDTO dto = modelMapper.map(board.get(), BoardViewDTO.class);
+    return dto;
   }
 }

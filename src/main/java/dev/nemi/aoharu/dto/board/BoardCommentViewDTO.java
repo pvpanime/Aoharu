@@ -1,4 +1,4 @@
-package dev.nemi.aoharu.service.board;
+package dev.nemi.aoharu.dto.board;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;

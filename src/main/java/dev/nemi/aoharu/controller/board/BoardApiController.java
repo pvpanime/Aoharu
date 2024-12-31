@@ -1,9 +1,9 @@
 package dev.nemi.aoharu.controller.board;
 
 
-import dev.nemi.aoharu.service.board.BoardPageRequestDTO;
+import dev.nemi.aoharu.dto.board.BoardPageRequestDTO;
 import dev.nemi.aoharu.dto.PageResponseDTO;
-import dev.nemi.aoharu.service.board.BoardListViewDTO;
+import dev.nemi.aoharu.dto.board.BoardListViewDTO;
 import dev.nemi.aoharu.service.board.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

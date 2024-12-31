@@ -6,7 +6,7 @@ import com.querydsl.jpa.JPQLQuery;
 import dev.nemi.aoharu.prime.Board;
 import dev.nemi.aoharu.prime.QBoard;
 import dev.nemi.aoharu.prime.QBoardComment;
-import dev.nemi.aoharu.service.board.BoardListViewDTO;
+import dev.nemi.aoharu.dto.board.BoardListViewDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

@@ -2,6 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
       layout:decorate="~{layout/bootstrap.html}">
 <head>
   <title th:text="${board.getTitle()}"></title>
@@ -60,9 +61,11 @@
   </main>
   <nav class="mb-4">
     <div class="d-flex justify-content-between">
-      <a th:href="@{'/board' + ${requestDTO.useQuery()}}" class="btn btn-secondary">Board List</a>
-      <a th:href="@{'/board/edit/' + ${board.getBid()} + ${requestDTO.useQuery()}}" class="btn btn-warning">Edit</a>
-      <button id="DeleteButton" class="btn btn-danger">Delete</button>
+      <div>
+        <a th:href="@{'/board' + ${requestDTO.useQuery()}}" class="btn btn-secondary">Board List</a>
+        <a th:if="${owner}" th:href="@{'/board/edit/' + ${board.getBid()} + ${requestDTO.useQuery()}}" class="btn btn-warning">Edit</a>
+      </div>
+      <button th:if="${owner}" id="DeleteButton" class="btn btn-danger">Delete</button>
     </div>
   </nav>
   <section class="mb-4">
@@ -71,6 +74,7 @@
       <ul id="comments-here" class="list-group list-group-flush"></ul>
       <div id="paginator-here" class="card-body"></div>
       <div class="card-body">
+<!--/*        <input type="hidden" id="csrfToken" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />*/-->
         <div class="form-floating">
           <textarea class="form-control UseTaHeight" placeholder="Write Comment" id="commentTA"></textarea>
           <label for="commentTA">Write Comment</label>
@@ -114,18 +118,12 @@
     }
 
 
-
-    document.getElementById('DeleteButton').addEventListener('click', e => {
-      if (window.confirm('Are you sure you want to delete this board?')) {
-        submitToDelete(deleteAction);
-      }
-    });
-
     document.getElementById("commentButton").addEventListener("click", e => {
       const content = commentTA.value
-      const userid = 'hina'
-
-      axios.post('/api/comment', { bid, content, userid })
+      // const csrfToken = document.getElementById('csrfToken')
+      axios.post('/api/comment', { bid, content,
+        // [csrfToken.name]: csrfToken.value
+      })
       .then(() => {
         fetchComments(bid, commentsHere, paginator)
         commentTA.value = ''
@@ -167,6 +165,13 @@
 
     fetchComments(bid, commentsHere, paginator)
 
+  </script>
+  <script th:if="${owner}" th:inline="javascript">
+    document.getElementById('DeleteButton').addEventListener('click', e => {
+      if (window.confirm('Are you sure you want to delete this board?')) {
+        submitToDelete(deleteAction);
+      }
+    });
   </script>
 </th:block>
 </html>

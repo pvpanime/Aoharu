@@ -1,5 +1,4 @@
-package dev.nemi.aoharu.service.board;
-
+package dev.nemi.aoharu.dto.board;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -11,12 +10,17 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BoardEditDTO {
-  private Long bid;
+public class BoardWriteDTO {
+  public static final BoardWriteDTO EMPTY = BoardWriteDTO.builder().title("").content("").build();
 
   @NotBlank
   private String title;
 
   @NotBlank
   private String content;
+  private String userid;
+
+  @Builder.Default
+  private Integer status = 1;
+
 }

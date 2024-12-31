@@ -1,5 +1,7 @@
 package dev.nemi.aoharu.config;
 
+import dev.nemi.aoharu.security.CustomUserDetailsService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -11,13 +13,21 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 @Log4j2
 @Configuration
-//@RequiredArgsConstructor
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class CustomSecurityConfig {
+
+  private final DataSource dataSource;
+  private final CustomUserDetailsService customUserDetailsService;
+
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -28,15 +38,25 @@ public class CustomSecurityConfig {
       s -> s.loginPage("/login")
     );
 
-//    http.csrf( s-> s.disable() );
+    http.csrf( c -> c.disable() );
+
+    http.rememberMe( re -> {
+      re.key("0sdfhiabbioafdonkavsfonkavsdiobnvasdipbnosdv")
+        .tokenRepository(persistentTokenRepository())
+        .userDetailsService(customUserDetailsService)
+        .tokenValiditySeconds(60 * 60 * 24 * 30)
+        ;
+    });
+
     http.authorizeHttpRequests(
       auth -> {
         auth.requestMatchers("/css/**", "/js/**", "/img/**", "/login").permitAll();
         auth.requestMatchers("/board/write", "/board/edit/*", "/food/register", "/food/edit/*").authenticated();
-//        auth.requestMatchers("/admin/**").hasRole("ADMIN");
-        auth.anyRequest().authenticated();
+//        auth.anyRequest().authenticated();
+        auth.anyRequest().permitAll();
       }
     );
+
     return http.build();
 
   }
@@ -54,5 +74,12 @@ public class CustomSecurityConfig {
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
+  }
+
+  @Bean
+  public PersistentTokenRepository persistentTokenRepository() {
+    JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+    tokenRepository.setDataSource(dataSource);
+    return tokenRepository;
   }
 }

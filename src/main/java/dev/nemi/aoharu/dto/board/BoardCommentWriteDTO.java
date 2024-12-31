@@ -1,4 +1,4 @@
-package dev.nemi.aoharu.service.board;
+package dev.nemi.aoharu.dto.board;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,6 +19,6 @@ public class BoardCommentWriteDTO {
   @NotBlank
   private String content;
 
-  @NotBlank
+//  @NotBlank
   private String userid;
 }

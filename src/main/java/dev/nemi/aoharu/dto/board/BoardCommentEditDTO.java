@@ -1,4 +1,4 @@
-package dev.nemi.aoharu.service.board;
+package dev.nemi.aoharu.dto.board;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

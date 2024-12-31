@@ -2,6 +2,9 @@ package dev.nemi.aoharu;
 
 import dev.nemi.aoharu.dto.BasePageRequestDTO;
 import dev.nemi.aoharu.dto.PageResponseDTO;
+import dev.nemi.aoharu.dto.board.BoardCommentViewDTO;
+import dev.nemi.aoharu.dto.board.BoardCommentWriteDTO;
+import dev.nemi.aoharu.dto.board.BoardListViewDTO;
 import dev.nemi.aoharu.prime.Board;
 import dev.nemi.aoharu.prime.BoardComment;
 import dev.nemi.aoharu.repository.board.BoardCommentRepo;

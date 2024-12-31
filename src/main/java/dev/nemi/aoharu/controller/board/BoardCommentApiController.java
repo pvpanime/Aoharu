@@ -1,17 +1,19 @@
 package dev.nemi.aoharu.controller.board;
 
-import dev.nemi.aoharu.service.board.BoardCommentPageRequestDTO;
+import dev.nemi.aoharu.dto.board.BoardCommentPageRequestDTO;
 import dev.nemi.aoharu.dto.PageResponseDTO;
-import dev.nemi.aoharu.service.board.BoardCommentEditDTO;
+import dev.nemi.aoharu.dto.board.BoardCommentEditDTO;
 import dev.nemi.aoharu.service.board.BoardCommentService;
-import dev.nemi.aoharu.service.board.BoardCommentViewDTO;
-import dev.nemi.aoharu.service.board.BoardCommentWriteDTO;
+import dev.nemi.aoharu.dto.board.BoardCommentViewDTO;
+import dev.nemi.aoharu.dto.board.BoardCommentWriteDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +31,7 @@ public class BoardCommentApiController {
   @Tag(name = "add comment")
   @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Map<String, Long>> add(
+    @AuthenticationPrincipal UserDetails userDetails,
     @Valid @RequestBody BoardCommentWriteDTO commentDTO,
     BindingResult bindingResult
   ) throws BindException {
@@ -36,6 +39,7 @@ public class BoardCommentApiController {
     if (bindingResult.hasErrors()) {
       throw new BindException(bindingResult);
     }
+    commentDTO.setUserid(userDetails.getUsername());
     Long cid = commentService.add(commentDTO);
 
     Map<String, Long> responseBody = Map.of("commentId", cid, "success", 1L);
