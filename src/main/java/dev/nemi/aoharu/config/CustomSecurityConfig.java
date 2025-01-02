@@ -1,5 +1,6 @@
 package dev.nemi.aoharu.config;
 
+import dev.nemi.aoharu.security.Custom403Handler;
 import dev.nemi.aoharu.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -57,6 +59,10 @@ public class CustomSecurityConfig {
       }
     );
 
+    http.exceptionHandling(
+      ex -> ex.accessDeniedHandler(accessDeniedHandler())
+    );
+
     return http.build();
 
   }
@@ -82,4 +88,10 @@ public class CustomSecurityConfig {
     tokenRepository.setDataSource(dataSource);
     return tokenRepository;
   }
+
+  @Bean
+  public AccessDeniedHandler accessDeniedHandler() {
+    return new Custom403Handler();
+  }
+
 }

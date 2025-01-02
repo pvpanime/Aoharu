@@ -1,7 +1,10 @@
 package dev.nemi.aoharu.controller;
 
+import dev.nemi.aoharu.dto.SignupDTO;
+import dev.nemi.aoharu.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +14,10 @@ import java.util.Map;
 
 @Log4j2
 @RestController
-public class ReflectRestController {
+@RequiredArgsConstructor
+public class IndexRestController {
+
+  private final UserService userService;
 
   @GetMapping(value = "/json", produces = "application/json")
   public Object json(@RequestParam MultiValueMap<String, String> allParams) {
@@ -26,18 +32,17 @@ public class ReflectRestController {
     return result;
   }
 
-  @GetMapping("/bread")
-  public Object bread() {
-    return Map.of("bread", "brioche");
-  }
 
-  @PostMapping("/bread")
-  public Object breadPost() {
-//    log.info("Received body: {}", body);
-    return Map.ofEntries(
-      Map.entry("success", Boolean.TRUE),
-      Map.entry("errors", false),
-      Map.entry("message", "I got this bread! thanks!")
+
+  @PostMapping("/api/user/signup")
+  public ResponseEntity<Map<String, Object>> doSignup(
+    SignupDTO signupDTO
+  ) {
+
+    userService.insertUser(signupDTO);
+
+    return ResponseEntity.ok().body(
+      Map.of("success", Boolean.TRUE, "message", "Welcome, " + signupDTO.getUserid() +"!")
     );
   }
 }
