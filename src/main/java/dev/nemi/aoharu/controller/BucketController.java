@@ -1,11 +1,11 @@
 package dev.nemi.aoharu.controller;
 
-import dev.nemi.aoharu.service.bucket.BucketPageRequestDTO;
+import dev.nemi.aoharu.dto.bucket.BucketPageRequestDTO;
 import dev.nemi.aoharu.dto.PageResponseDTO;
-import dev.nemi.aoharu.service.bucket.BucketCreateDTO;
-import dev.nemi.aoharu.service.bucket.BucketEditDTO;
+import dev.nemi.aoharu.dto.bucket.BucketCreateDTO;
+import dev.nemi.aoharu.dto.bucket.BucketEditDTO;
 import dev.nemi.aoharu.service.bucket.BucketService;
-import dev.nemi.aoharu.service.bucket.BucketViewDTO;
+import dev.nemi.aoharu.dto.bucket.BucketViewDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

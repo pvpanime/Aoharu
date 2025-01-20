@@ -1,6 +1,10 @@
 package dev.nemi.aoharu.service.bucket;
 
 import dev.nemi.aoharu.dto.PageResponseDTO;
+import dev.nemi.aoharu.dto.bucket.BucketCreateDTO;
+import dev.nemi.aoharu.dto.bucket.BucketEditDTO;
+import dev.nemi.aoharu.dto.bucket.BucketPageRequestDTO;
+import dev.nemi.aoharu.dto.bucket.BucketViewDTO;
 
 public interface BucketService {
   Long create(BucketCreateDTO dto);
